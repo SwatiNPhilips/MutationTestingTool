@@ -29,6 +29,14 @@ MutateOperation* MutateOperationFactory::getOperation()
 	  operation = ReplaceInsertWithIndex::GetInstance();
 	  break;
 
+  case BOOLEAN:
+	  operation = ReplaceBoolean::GetInstance();
+	  break;
+
+  case EQUALS:
+	  operation = ReplaceEquals::GetInstance();
+	  break;
+
   default:
 	  break;
 
@@ -46,6 +54,13 @@ void MutateOperationFactory::ReleaseInstances()
 
 	case INSERT:
 		ReplaceInsertWithIndex::ReleaseInstance();
+
+	case BOOLEAN:
+		ReplaceBoolean::ReleaseInstance();
+		break;
+
+	case EQUALS:
+		ReplaceEquals::ReleaseInstance();
 		break;
 
 	default:
