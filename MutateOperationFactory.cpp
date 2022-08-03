@@ -1,0 +1,55 @@
+#include "MutateOperationFactory.h"
+
+MutateOperationFactory::MutateOperationFactory()
+{
+	opType = OPERATION_TYPE::NONE;
+}
+
+MutateOperationFactory::~MutateOperationFactory()
+{
+	ReleaseInstances();
+	opType = OPERATION_TYPE::NONE;
+}
+
+void MutateOperationFactory::SetOperationType(OPERATION_TYPE type)
+{
+	opType = type;
+}
+
+MutateOperation* MutateOperationFactory::getOperation()
+{
+  MutateOperation* operation = nullptr;
+  switch (opType)
+  {
+  case INTEGER:
+	  operation = ReplaceIntegers::GetInstance();
+	  break;
+
+  case INSERT:
+	  operation = ReplaceInsertWithIndex::GetInstance();
+	  break;
+
+  default:
+	  break;
+
+  }
+  return operation;
+}
+
+void MutateOperationFactory::ReleaseInstances()
+{
+	switch (opType)
+	{
+	case INTEGER:
+		ReplaceIntegers::ReleaseInstance();
+		break;
+
+	case INSERT:
+		ReplaceInsertWithIndex::ReleaseInstance();
+		break;
+
+	default:
+		break;
+
+	}
+}
