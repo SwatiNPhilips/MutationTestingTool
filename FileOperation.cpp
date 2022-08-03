@@ -81,12 +81,13 @@ bool FileOperation::File_write(string line, MutateOperation* MutateOp, std::map<
 			(*mpReport)[mapIndex].lines.push_back((to_string(line_number) + " : " + line));
 			(*mpReport)[mapIndex].mutants_count++;
 
-			result = true;
-		}
-		write_offset = read_offset;
 		cout << "\n \n -----------\n";
 		cout << " write line : " << line << "\n";
 		cout << "\n \n -----------\n";
+   
+			result = true;
+		}
+		write_offset = read_offset;
 
 		fout.close();
 	}
@@ -162,7 +163,10 @@ vector<string> FileOperation::Read_Config()
 	{
 		while (getline(fin, line))
 		{
-			result.push_back(line);
+			if ((line.find(";") != string::npos) && (line.find("#") == string::npos))
+			{
+				result.push_back(line);
+			}
 		}
 	}
 	return result;
