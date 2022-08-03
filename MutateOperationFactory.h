@@ -4,7 +4,9 @@
 #include <string>
 #include<iostream>
 #include "ReplaceIntegers.h"
-#include"ReplaceInsertWithIndex.h"
+#include "ReplaceInsertWithIndex.h"
+#include "ReplaceBoolean.h"
+#include "ReplaceEquals.h"
 
 using namespace std;
 
