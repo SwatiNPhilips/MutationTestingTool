@@ -1,14 +1,24 @@
 #pragma once
-#include<string>
-;
-
+#include <string>
+#include <map>
 typedef enum
 {
 	INTEGER = 0,
 	INSERT,
+	BOOLEAN,
+	EQUALS,
 	NONE
 
 }OPERATION_TYPE;
+
+typedef enum
+{
+	PASSED = 0,
+	FAILED
+
+}CMD_OP_TYPE;
+
+typedef std::map<CMD_OP_TYPE, std::string> MAP_CMD_OP;
 
 struct config_struct
 {
