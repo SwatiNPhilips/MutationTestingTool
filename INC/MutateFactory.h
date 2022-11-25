@@ -10,18 +10,19 @@ class MutateFactory
 {
 	FileOperation* mp_FileOp;
 	MutateOperation* mp_MutateOp;
-	ExecuteClass* mp_exec;
-	Report* mp_Report;
+	ExecuteClass m_Exec;
+	Report m_Report;
 	vector<CONFIG_STRUCT> configVec;
 
 	void PerformMutationTesting(OPERATION_TYPE type);
 
 public:
-	MutateFactory(vector<CONFIG_STRUCT> conf);
+	MutateFactory();
 	~MutateFactory();
 
 	void initMutate();
-	void PrintReport();
+	void setConfiguration(vector<CONFIG_STRUCT> conf);
+	void printReport();
 
 };
 

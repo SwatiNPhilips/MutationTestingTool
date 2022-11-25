@@ -31,7 +31,7 @@ FileOperation::~FileOperation()
 
 void FileOperation::init()
 {
-	database_folder = "/home/philips/Repo/Mutate_Factory/MutationTesting";
+	database_folder = "/workspace/MutationTestingTool";
 	CreateDB_Folder();
 	copyOriginalFile();
 }

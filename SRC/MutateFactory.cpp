@@ -2,20 +2,23 @@
 #include"MiscEnums.h"
 #include"Report.h"
 
-MutateFactory::MutateFactory(vector<CONFIG_STRUCT> conf)
+MutateFactory::MutateFactory()
 {
 	configVec.clear();
 	mp_FileOp = nullptr;
 	mp_MutateOp = nullptr;
-	mp_exec = new ExecuteClass();
-	mp_Report = new Report();
-	configVec = conf;
-
 }
 
 MutateFactory::~MutateFactory()
 {
+	configVec.clear();
+	mp_FileOp = nullptr;
+	mp_MutateOp = nullptr;
+}
 
+void MutateFactory::setConfiguration(vector<CONFIG_STRUCT> conf)
+{
+	configVec = conf;
 }
 
 void MutateFactory::PerformMutationTesting(OPERATION_TYPE type)
@@ -23,7 +26,7 @@ void MutateFactory::PerformMutationTesting(OPERATION_TYPE type)
 	cout << "\n\nPerformMutationTesting\n";
 	cout << "\n--------------------------\n";
 
-	std::map<std::string, REPORT>* p_Report = mp_Report->getReport();
+	std::map<std::string, REPORT>* p_Report = m_Report.getReport();
 	REPORT report;
 	report.mutant_type = type;
 	string mapIndex = mp_FileOp->GetFileName() + "_" + to_string(type);
@@ -36,8 +39,17 @@ void MutateFactory::PerformMutationTesting(OPERATION_TYPE type)
 	{
 		if (mp_FileOp->File_Read(mp_MutateOp, p_Report, mapIndex))
 		{
-			mp_exec->buildCode();
-			mp_Report->CreateReport(mp_exec->runCode(), mapIndex);
+			m_Exec.buildCode();
+			m_Report.CreateReport(m_Exec.runCode(), mapIndex);
+      
+			/*MAP_CMD_OP map_cmd_op = m_Exec.runCode(CMD_OP_TYPE::FAILED);
+			if (map_cmd_op[CMD_OP_TYPE::FAILED].empty())
+			{
+				map_cmd_op = m_Exec.runCode(CMD_OP_TYPE::PASSED);
+			}
+
+			m_Report.CreateReport(map_cmd_op, mapIndex);*/
+      
 			mp_FileOp->ReplaceOriginalFile();
 		}
 	}
@@ -69,7 +81,7 @@ void MutateFactory::initMutate()
 	}
 }
 
-void MutateFactory::PrintReport()
+void MutateFactory::printReport()
 {
-	mp_Report->PrintReport();
+	m_Report.printReport();
 }

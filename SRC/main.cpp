@@ -12,15 +12,15 @@ int main(int argc, char* argv[])
 	ConfigurationFile* cf = new ConfigurationFile();
 	if (cf != nullptr)
 	{
-		MutateFactory* fp = new MutateFactory(cf->PopulateConfigStruct());
-   
+		MutateFactory* fp = new MutateFactory();
+		fp->setConfiguration(cf->PopulateConfigStruct());
 		delete cf;
 		cf = nullptr;
    
 		if (fp != nullptr)
 		{
 			fp->initMutate();
-			fp->PrintReport();
+			fp->printReport();
 
 			delete fp;
 			fp = nullptr;
