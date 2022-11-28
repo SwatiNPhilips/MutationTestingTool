@@ -4,7 +4,7 @@
 ConfigurationFile::ConfigurationFile()
 {
 	string file_name = "config.txt";
-	string file_path = "/home/philips/Repo/Mutate_Factory/MutationTesting";
+	string file_path = "/home/philips/smart-dev-env/workspace/MutationTestingTool";
 	fileOps = new FileOperation(file_name, file_path);
 }
 ConfigurationFile::~ConfigurationFile()

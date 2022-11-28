@@ -11,12 +11,14 @@ struct report_struct
 	unsigned int failed_tests;
 	OPERATION_TYPE mutant_type;
 	std::vector<std::string> lines;
+ 	std::vector<std::string> survived_mutants;
 
 	report_struct()
 	{
 		mutants_count = pass_tests = failed_tests = 0;
 		mutant_type = OPERATION_TYPE::NONE;
 		lines.clear();
+    survived_mutants.clear();
 	}
 };
 
@@ -33,8 +35,8 @@ public:
 	Report();
 	~Report();
 
-	void CreateReport(std::string output, std::string mapIndex);
+	void CreateReport(MAP_CMD_OP map_Output, std::string mapIndex);
 	std::map<std::string, REPORT>* getReport();
-	void PrintReport();
+	void printReport();
 };
 

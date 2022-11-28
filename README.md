@@ -8,6 +8,16 @@ EQUALS = 3<br/>
 
 The further mutents can be extended, find the architecture to extend in ppt.<br/>
 
+To use cmake follow below steps:
+1. make build dir in root directory. 
+2. Run, cd build
+3. Run, cmake .. 
+The above command will generate Makefile and other files in build directory.
+4. Simply run make in build directory.
+
+Note: CMake supports out-of-source build. Even the most simple project should never mix-up
+sources with generated files. In-source build is a BAD choice.
+
 Contributors:<br/>
 Ganesh D <br/>
 Ashutosh Gupta <br/>
