@@ -21,7 +21,6 @@ bool ReplaceInsertWithIndex::Mutate(std::string& line)
 
 	if ((strLine.find(strToFind) != string::npos) && (strLine.find(",") != string::npos) && (!(strLine.find("void") != string::npos)))
 	{
-		bool flag = false;
 		auto len_Str = strLine.find(strToFind) + strToFind.length();
 		auto len_comma = strLine.find(",");
 		std::string subStrToFind = strLine.substr(len_Str, (len_comma - len_Str));

@@ -19,7 +19,6 @@ ReplaceBoolean::~ReplaceBoolean()
 
 bool ReplaceBoolean::Mutate(std::string& line)
 {
-	const char* c = line.c_str();
 	bool result = false;
 
 	cout << "\n replace boolean : " << line << "\n";
@@ -27,7 +26,6 @@ bool ReplaceBoolean::Mutate(std::string& line)
 	{
 		return  result;
 	}
-	std::string::const_iterator it = line.begin();
 	if ((line.find(" true") != string::npos) || (line.find("(true") != string::npos))
 	{
 		line.replace(line.find(STRTRUE), SIZEOFTRUE, STRFALSE);

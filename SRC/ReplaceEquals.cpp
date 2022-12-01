@@ -18,7 +18,6 @@ ReplaceEquals::~ReplaceEquals()
 
 bool ReplaceEquals::Mutate(std::string& line)
 {
-	const char* c = line.c_str();
 	bool result = false;
 
 	cout << "\n ReplaceEquals : " << line << "\n";
@@ -26,7 +25,6 @@ bool ReplaceEquals::Mutate(std::string& line)
 	{
 		return  result;
 	}
-	std::string::const_iterator it = line.begin();
 	if ((line.find(STREQUALS) != string::npos))
 	{
 		line.replace(line.find(STREQUALS), SIZEOFEQUALS, STRNOTEQUALS);
