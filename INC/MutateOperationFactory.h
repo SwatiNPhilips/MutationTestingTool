@@ -7,6 +7,7 @@
 #include "ReplaceInsertWithIndex.h"
 #include "ReplaceBoolean.h"
 #include "ReplaceEquals.h"
+#include "ReplaceIncrement.h"
 
 using namespace std;
 

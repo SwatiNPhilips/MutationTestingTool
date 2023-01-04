@@ -86,6 +86,10 @@ std::string Report::to_String(OPERATION_TYPE mutant_type)
 		return "EQUALS";
 		break;
 
+	case INCREMENTDECREMENT:
+		return "INCREMENTDECREMENT";
+		break;
+		
 	default:
 		return "NONE";
 		break;

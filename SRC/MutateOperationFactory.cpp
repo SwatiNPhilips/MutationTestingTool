@@ -18,30 +18,35 @@ void MutateOperationFactory::SetOperationType(OPERATION_TYPE type)
 
 MutateOperation* MutateOperationFactory::getOperation()
 {
-  MutateOperation* operation = nullptr;
-  switch (opType)
-  {
-  case INTEGER:
-	  operation = ReplaceIntegers::GetInstance();
-	  break;
+	MutateOperation* operation = nullptr;
+	
+	switch (opType)
+	{
+	case INTEGER:
+		operation = ReplaceIntegers::GetInstance();
+		break;
 
-  case INSERT:
-	  operation = ReplaceInsertWithIndex::GetInstance();
-	  break;
+	case INSERT:
+		operation = ReplaceInsertWithIndex::GetInstance();
+		break;
 
-  case BOOLEAN:
-	  operation = ReplaceBoolean::GetInstance();
-	  break;
+	case BOOLEAN:
+		operation = ReplaceBoolean::GetInstance();
+		break;
 
-  case EQUALS:
-	  operation = ReplaceEquals::GetInstance();
-	  break;
+	case EQUALS:
+		operation = ReplaceEquals::GetInstance();
+		break;
 
-  default:
-	  break;
+	case INCREMENTDECREMENT:
+		operation = ReplaceIncrement::GetInstance();
+		break;
 
-  }
-  return operation;
+	default:
+		break;
+	}
+
+	return operation;
 }
 
 void MutateOperationFactory::ReleaseInstances()
@@ -61,6 +66,10 @@ void MutateOperationFactory::ReleaseInstances()
 
 	case EQUALS:
 		ReplaceEquals::ReleaseInstance();
+		break;
+
+	case INCREMENTDECREMENT:
+    	ReplaceIncrement::ReleaseInstance();
 		break;
 
 	default:

@@ -16,6 +16,7 @@ ReplaceInsertWithIndex.cpp\
 ReplaceBoolean.cpp\
 ReplaceEquals.cpp\
 ReplaceIntegers.cpp\
+ReplaceIncrement.cpp\
 Report.cpp
 
 OBJECTS=$(SOURCES:.cpp=.o)
