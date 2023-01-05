@@ -4,21 +4,21 @@
 
 MutateFactory::MutateFactory()
 {
-	configVec.clear();
+	configurations.clear();
 	mp_FileOp = nullptr;
 	mp_MutateOp = nullptr;
 }
 
 MutateFactory::~MutateFactory()
 {
-	configVec.clear();
+	configurations.clear();
 	mp_FileOp = nullptr;
 	mp_MutateOp = nullptr;
 }
 
-void MutateFactory::setConfiguration(vector<CONFIG_STRUCT> conf)
+void MutateFactory::setConfiguration(CONFIGURATION conf)
 {
-	configVec = conf;
+	configurations = conf;
 }
 
 void MutateFactory::PerformMutationTesting(OPERATION_TYPE type)
@@ -31,25 +31,16 @@ void MutateFactory::PerformMutationTesting(OPERATION_TYPE type)
 	report.mutant_type = type;
 	string mapIndex = mp_FileOp->GetFileName() + "_" + to_string(type);
 	(*p_Report)[mapIndex] = report;
+	m_Exec.setExecuteDetails(configurations);
 
 
 	int cnt = mp_FileOp->getLinesCount();
-	cout << "count: " << cnt;
-	for (int i = 1; i <= cnt; i++)
+	for (int line = 1; line <= cnt; line++)
 	{
 		if (mp_FileOp->File_Read(mp_MutateOp, p_Report, mapIndex))
 		{
 			m_Exec.buildCode();
-			m_Report.CreateReport(m_Exec.runCode(), mapIndex);
-      
-			/*MAP_CMD_OP map_cmd_op = m_Exec.runCode(CMD_OP_TYPE::FAILED);
-			if (map_cmd_op[CMD_OP_TYPE::FAILED].empty())
-			{
-				map_cmd_op = m_Exec.runCode(CMD_OP_TYPE::PASSED);
-			}
-
-			m_Report.CreateReport(map_cmd_op, mapIndex);*/
-      
+			m_Report.CreateReport(m_Exec.runCode(), mapIndex);    
 			mp_FileOp->ReplaceOriginalFile();
 		}
 	}
@@ -57,10 +48,10 @@ void MutateFactory::PerformMutationTesting(OPERATION_TYPE type)
 
 void MutateFactory::initMutate()
 {
-	if (!configVec.empty())
+	if (! configurations.config_list.empty())
 	{
-		vector<CONFIG_STRUCT>::const_iterator it = configVec.begin();
-		for (; it != configVec.end(); it++)
+		vector<CONFIG_STRUCT>::const_iterator it = configurations.config_list.begin();
+		for (; it != configurations.config_list.end(); it++)
 		{
 			CONFIG_STRUCT configStruct = *it;
 
@@ -71,7 +62,7 @@ void MutateFactory::initMutate()
 			{
 				mp_FileOp->init();
 				mp_factory->SetOperationType(configStruct.op_type);
-				mp_MutateOp = mp_factory->getOperation();
+				mp_MutateOp = mp_factory->getOperationType();
 				PerformMutationTesting(configStruct.op_type);
 
 				delete mp_FileOp; mp_FileOp = nullptr;

@@ -5,7 +5,13 @@
 #include"ReplaceIntegers.h"
 #include"Report.h"
 
-using namespace std;
+static constexpr char SEPERATOR[] = "/";
+static constexpr char BACKUPDB[] = "./BackupDB/";
+static constexpr char DB_EXT[] = "_db";
+static constexpr char CMDMKDIR[] = "mkdir";
+static constexpr char SPACE[] = " ";
+static constexpr char CMDCP[] = "cp";
+static constexpr char ORIGINAL[] = "original";
 
 class MutateOperation;
 
@@ -13,11 +19,9 @@ FileOperation::FileOperation(string name, string path)
 {
 	file_name = name;
 	file_path = path;
-	absolute_path = path + "/" + name;
+	absolute_path = path + SEPERATOR + name;
 	lines_count = line_number = 0;
 	read_offset = write_offset = 0;
-
-	cout << "\n constructor :\n" << "\nFile name :" << file_name << "\nFile path: " << file_path;
 }
 
 FileOperation::~FileOperation()
@@ -31,7 +35,7 @@ FileOperation::~FileOperation()
 
 void FileOperation::init()
 {
-	database_folder = "/workspace/MutationTestingTool";
+	database_folder = BACKUPDB;
 	CreateDB_Folder();
 	copyOriginalFile();
 }
@@ -121,55 +125,33 @@ int FileOperation::getLinesCount()
 
 void FileOperation::CreateDB_Folder()
 {
-	string cmd = "mkdir " + database_folder;
+	string cmd = CMDMKDIR + string(SPACE) + database_folder;
 	system(cmd.c_str());
-	cmd = "mkdir " + database_folder + "/" + file_name + "_db";
+	cmd = CMDMKDIR + string(SPACE) + database_folder + file_name + DB_EXT;
 	system(cmd.c_str());
 
-	database_folder = database_folder + "/" + file_name + "_db";
+	database_folder = database_folder + file_name + DB_EXT;
 	cout << "\n Called CreateDB_Folder " << database_folder;
 }
 
 void FileOperation::copyOriginalFile()
 {
-	string folder = database_folder + "/original";
-	string cmd = "mkdir " + folder;
+	string folder = database_folder + SEPERATOR + ORIGINAL;
+	string cmd = CMDMKDIR + string(SPACE) + folder;
 	system(cmd.c_str());
-	cmd = "cp " + file_path + "/" + file_name +" " + folder;
+	cmd = CMDCP + string(SPACE) + file_path + SEPERATOR + file_name + SPACE + folder;
 	system(cmd.c_str());
 	original_file_folder = folder;
-	cout << "\n Called copyOriginalFile " << original_file_folder;
+	//cout << "\n Called copyOriginalFile " << original_file_folder;
 }
 
 
 void FileOperation::ReplaceOriginalFile()
 {
-	cout << "\n Called ReplaceOriginalFile ";
+	//cout << "\n Called ReplaceOriginalFile ";
 	
-	string cmd = "cp " + original_file_folder + "/" + file_name + " " + file_path;
+	string cmd = CMDCP + string(SPACE) + original_file_folder + SEPERATOR + file_name + SPACE + file_path;
 	system(cmd.c_str());
-}
-
-vector<string> FileOperation::Read_Config()
-{
-	ifstream fin;
-	string line;
-	vector<string> result;
-	result.clear();
-
-	fin.open(absolute_path.c_str());
-
-	if (fin.is_open())
-	{
-		while (getline(fin, line))
-		{
-			if ((line.find(";") != string::npos) && (line.find("#") == string::npos))
-			{
-				result.push_back(line);
-			}
-		}
-	}
-	return result;
 }
 
 string FileOperation::GetFileName()

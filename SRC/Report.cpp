@@ -24,7 +24,7 @@ void Report::CreateReport(MAP_CMD_OP map_Output, std::string mapIndex)
 	else if(!map_Output[CMD_OP_TYPE::PASSED].empty())
 	{
 		report_map[mapIndex].pass_tests++;
-    report_map[mapIndex].survived_mutants.push_back(report_map[mapIndex].lines.back());
+    	report_map[mapIndex].survived_mutants.push_back(report_map[mapIndex].lines.back());
 	}
 }
 

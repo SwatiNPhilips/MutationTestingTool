@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
+#include <vector>
 typedef enum
 {
 	INTEGER = 0,
@@ -34,3 +35,25 @@ struct config_struct
 	}
 };
 typedef config_struct CONFIG_STRUCT;
+
+struct configuration
+{
+	std::string build_path;
+	std::string build_command;
+	std::string run_path;
+	std::string run_command;
+	std::vector<CONFIG_STRUCT> config_list;
+	configuration()
+	{
+		clear();
+	}
+	void clear()
+	{
+		build_path.clear();
+		build_command.clear();
+		run_path.clear();
+		run_command.clear();
+		config_list.clear();
+	}
+};
+typedef configuration CONFIGURATION;

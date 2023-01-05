@@ -1,12 +1,15 @@
 rootdir = $(realpath ..)
 INC=$(rootdir)/INC/
+BOOST_ROOT := /usr/local/boost_1_66_0
+BOOST_INC := ${BOOST_ROOT}/include
 
 CC = g++
-CFLAGS = -std=c++17 -c -Wall -I$(INC)
+CFLAGS = -std=c++17 -c -Wall -I$(INC) -I$(BOOST_ROOT)
 LDFLAGS=
 
 SOURCES = main.cpp \
 ConfigurationFile.cpp\
+ConfigurationParser.cpp\
 Execute.cpp\
 FileOperation.cpp\
 MutateFactory.cpp\
@@ -19,7 +22,7 @@ ReplaceIntegers.cpp\
 Report.cpp
 
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=output
+EXECUTABLE=MutationTestingTool
 
 all: $(SOURCES) $(EXECUTABLE)
 
