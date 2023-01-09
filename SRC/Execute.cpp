@@ -1,5 +1,3 @@
-#include <string>
-#include<iostream>
 #include "Execute.h"
 static constexpr char CD[] = "cd";
 static constexpr char SPACE[] = " ";
@@ -26,7 +24,7 @@ void ExecuteClass::resetDetails()
 	m_runCommand.clear();
 }
 
-void ExecuteClass::setExecuteDetails(CONFIGURATION conf)
+void ExecuteClass::setExecuteDetails(const CONFIGURATION conf)
 {
 	m_buildPath = conf.build_path;
 	m_buildCommand = conf.build_command;
@@ -37,16 +35,32 @@ void ExecuteClass::setExecuteDetails(CONFIGURATION conf)
 void ExecuteClass::buildCode()
 {
 	string cmd = CD + string(SPACE) +  m_buildPath + SEMICOLON + m_buildCommand;
-	system(cmd.c_str());
+#ifdef _WIN32
+	FILE* pipe = _popen(cmd.c_str(), "r");
+#else
+	FILE* pipe = popen(cmd.c_str(), "r");
+#endif
 
+	if (!pipe) {
+		cout << "popen failed! for build code" << endl;
+	}
+#ifdef _WIN32
+	_pclose(pipe);
+#else
+	pclose(pipe);
+#endif
 }
 
-std::string ExecuteClass::readConsole(std::string command)
+string ExecuteClass::readConsole(const string command) const
 {
 	char buffer[128];
 	string result = "";
 	result.clear();
+#ifdef _WIN32
+	FILE* pipe = _popen(command.c_str(), "r");
+#else
 	FILE* pipe = popen(command.c_str(), "r");
+#endif
 
 	if (!pipe) {
 		cout << "popen failed!" << endl;
@@ -59,7 +73,11 @@ std::string ExecuteClass::readConsole(std::string command)
 			result += buffer;
 	}
 
+#ifdef _WIN32
+	_pclose(pipe);
+#else
 	pclose(pipe);
+#endif
 	cout << "\n\n result :" << result;
 	return result;
 }

@@ -16,34 +16,9 @@ MutateFactory::~MutateFactory()
 	mp_MutateOp = nullptr;
 }
 
-void MutateFactory::setConfiguration(CONFIGURATION conf)
+void MutateFactory::setConfiguration(const CONFIGURATION conf)
 {
 	configurations = conf;
-}
-
-void MutateFactory::PerformMutationTesting(OPERATION_TYPE type)
-{
-	cout << "\n\nPerformMutationTesting\n";
-	cout << "\n--------------------------\n";
-
-	std::map<std::string, REPORT>* p_Report = m_Report.getReport();
-	REPORT report;
-	report.mutant_type = type;
-	string mapIndex = mp_FileOp->GetFileName() + "_" + to_string(type);
-	(*p_Report)[mapIndex] = report;
-	m_Exec.setExecuteDetails(configurations);
-
-
-	int cnt = mp_FileOp->getLinesCount();
-	for (int line = 1; line <= cnt; line++)
-	{
-		if (mp_FileOp->File_Read(mp_MutateOp, p_Report, mapIndex))
-		{
-			m_Exec.buildCode();
-			m_Report.CreateReport(m_Exec.runCode(), mapIndex);    
-			mp_FileOp->ReplaceOriginalFile();
-		}
-	}
 }
 
 void MutateFactory::initMutate()
@@ -68,6 +43,31 @@ void MutateFactory::initMutate()
 				delete mp_FileOp; mp_FileOp = nullptr;
 				delete mp_factory;mp_factory = nullptr;
 			}
+		}
+	}
+}
+
+void MutateFactory::PerformMutationTesting(const OPERATION_TYPE type)
+{
+	cout << "\n\nPerformMutationTesting\n";
+	cout << "\n--------------------------\n";
+
+	map<string, REPORT>* p_Report = m_Report.getReport();
+	REPORT report;
+	report.mutant_type = type;
+	string mapIndex = mp_FileOp->GetFileName() + "_" + to_string(type);
+	(*p_Report)[mapIndex] = report;
+	m_Exec.setExecuteDetails(configurations);
+
+
+	int cnt = mp_FileOp->getLinesCount();
+	for (int line = 1; line <= cnt; line++)
+	{
+		if (mp_FileOp->File_Read(mp_MutateOp, p_Report, mapIndex))
+		{
+			m_Exec.buildCode();
+			m_Report.CreateReport(m_Exec.runCode(), mapIndex);    
+			mp_FileOp->ReplaceOriginalFile();
 		}
 	}
 }

@@ -11,7 +11,7 @@ MutateOperationFactory::~MutateOperationFactory()
 	m_opType = OPERATION_TYPE::NONE;
 }
 
-void MutateOperationFactory::SetOperationType(OPERATION_TYPE type)
+void MutateOperationFactory::SetOperationType(const OPERATION_TYPE type)
 {
 	m_opType = type;
 }
@@ -44,7 +44,7 @@ MutateOperation* MutateOperationFactory::getOperationType() const
   return operation;
 }
 
-void MutateOperationFactory::ReleaseInstances()
+void MutateOperationFactory::ReleaseInstances() const
 {
 	switch (m_opType)
 	{

@@ -14,14 +14,14 @@ class MutateFactory
 	Report m_Report;
 	CONFIGURATION configurations;
 
-	void PerformMutationTesting(OPERATION_TYPE type);
+	void PerformMutationTesting(const OPERATION_TYPE);
 
 public:
 	MutateFactory();
 	~MutateFactory();
 
 	void initMutate();
-	void setConfiguration(CONFIGURATION conf);
+	void setConfiguration(const CONFIGURATION);
 	void printReport();
 
 };

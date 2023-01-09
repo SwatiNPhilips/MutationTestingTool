@@ -1,5 +1,4 @@
 #include "ConfigurationFile.h"
-#include<vector>
 static constexpr char CONFIGURATIONFILE[] = "configuration.json";
 
 ConfigurationFile::ConfigurationFile()

@@ -1,6 +1,4 @@
 #include "ReplaceInsertWithIndex.h"
-#include<string>
-#include <iostream>
 
 ReplaceInsertWithIndex* ReplaceInsertWithIndex::m_Instance = nullptr;
 
@@ -13,22 +11,22 @@ ReplaceInsertWithIndex::~ReplaceInsertWithIndex()
 
 }
 
-bool ReplaceInsertWithIndex::Mutate(std::string& line)
+bool ReplaceInsertWithIndex::Mutate(string& line)
 {
 	string strLine(line);
-	std::string strToFind = "HL7Segment::insert(";
+	string strToFind = "HL7Segment::insert(";
 	bool result = false;
 
 	if ((strLine.find(strToFind) != string::npos) && (strLine.find(",") != string::npos) && (!(strLine.find("void") != string::npos)))
 	{
 		auto len_Str = strLine.find(strToFind) + strToFind.length();
 		auto len_comma = strLine.find(",");
-		std::string subStrToFind = strLine.substr(len_Str, (len_comma - len_Str));
+		string subStrToFind = strLine.substr(len_Str, (len_comma - len_Str));
 		const char* c = subStrToFind.c_str();
-		std::string::const_iterator it = subStrToFind.begin();
+		string::const_iterator it = subStrToFind.begin();
 		for (int i = 0; it != subStrToFind.end(); i++, it++)
 		{
-			if (std::isdigit(*it))
+			if (isdigit(*it))
 			{
 
 				int tmp = atoi(&c[i]);

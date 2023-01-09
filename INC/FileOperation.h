@@ -1,14 +1,8 @@
 #pragma once
-#include<string>
 #include"MutateOperation.h"
 #include"ReplaceIntegers.h"
-#include<vector>
-#include<map>
 #include"Report.h"
 
-class MutateOperation;
-
-using namespace std;
 class FileOperation
 {
 	string file_name;
@@ -25,22 +19,20 @@ class FileOperation
 	int lines_count;
 	int line_number;
 
-	bool File_write(string, MutateOperation*, std::map<std::string, REPORT>* mpReport, string mapIndex);
+	bool File_write(string, MutateOperation*, map<string, REPORT>*, const string);
 
 public : 
 	FileOperation(string, string);
 	~FileOperation();
 	void init();
 
-	bool File_Read(MutateOperation* MutateOp, std::map<std::string, REPORT>* mpReport, string mapIndex);
-
-	vector<string> Read_Config();
+	bool File_Read(MutateOperation*, map<string, REPORT>*, const string);
 
 	int getLinesCount();
 	void copyOriginalFile();
-	void ReplaceOriginalFile();
+	void ReplaceOriginalFile() const;
 	void CreateDB_Folder();
 
-	string GetFileName();
+	string GetFileName() const;
 };
 

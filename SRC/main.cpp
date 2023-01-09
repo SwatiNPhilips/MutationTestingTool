@@ -1,11 +1,6 @@
-#include <iostream>
-#include <fstream>
-#include<string>
-#include "FileOperation.h"
 #include"MutateFactory.h"
 #include"ConfigurationFile.h"
 
-using namespace std;
 int main(int argc, char* argv[])
 {
 	cout << "\n Main function : ";

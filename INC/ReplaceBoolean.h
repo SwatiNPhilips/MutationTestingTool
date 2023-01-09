@@ -1,8 +1,6 @@
 #pragma once
 #include "MutateOperation.h"
-#include<string>
 
-using namespace std;
 class ReplaceBoolean : public MutateOperation
 {
 	ReplaceBoolean();
@@ -13,7 +11,7 @@ class ReplaceBoolean : public MutateOperation
 	static ReplaceBoolean* m_Instance;
 public:
 
-	virtual bool Mutate(std::string& line) override;
+	virtual bool Mutate(string& line) override;
 
 	static ReplaceBoolean* GetInstance()
 	{

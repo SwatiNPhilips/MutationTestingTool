@@ -17,15 +17,11 @@ ReplaceBoolean::~ReplaceBoolean()
 
 }
 
-bool ReplaceBoolean::Mutate(std::string& line)
+bool ReplaceBoolean::Mutate(string& line)
 {
 	bool result = false;
 
 	cout << "\n replace boolean : " << line << "\n";
-	if (line.find("::hl7") != string::npos)
-	{
-		return  result;
-	}
 	if ((line.find(" true") != string::npos) || (line.find("(true") != string::npos))
 	{
 		line.replace(line.find(STRTRUE), SIZEOFTRUE, STRFALSE);
