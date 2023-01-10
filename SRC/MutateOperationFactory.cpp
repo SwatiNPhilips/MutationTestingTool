@@ -38,8 +38,60 @@ MutateOperation* MutateOperationFactory::getOperation()
 		operation = ReplaceEquals::GetInstance();
 		break;
 
-	case INCREMENTDECREMENT:
+	case INCREMENT:
 		operation = ReplaceIncrement::GetInstance();
+		break;
+
+	case DECREMENT:
+		operation = ReplaceDecrement::GetInstance();
+		break;
+
+	case PLUSTOMINUS:
+		operation = ReplacePlusWithMinus::GetInstance();
+		break;
+
+	case PLUSTOMULTIPLICATION:
+		operation = ReplacePlusWithMultiplication::GetInstance();
+		break;
+
+	case PLUSTODIVISION:
+		operation = ReplacePlusWithDivision::GetInstance();
+		break;
+
+	case MINUSTOPLUS:
+		operation = ReplaceMinusWithPlus::GetInstance();
+		break;
+	
+	case MINUSTOMULTIPLICATION:
+		operation = ReplaceMinusWithMultiplication::GetInstance();
+		break;
+	
+	case MINUSTODIVISION:
+		operation = ReplaceMinusWithDivision::GetInstance();
+		break;
+	
+	case MULTIPLICATIONTOPLUS:
+		operation = ReplaceMultiplicationWithPlus::GetInstance();
+		break;
+
+	case MULTIPLICATIONTOMINUS:
+		operation = ReplaceMultiplicationWithMinus::GetInstance();
+		break;
+
+	case MULTIPLICATIONTODIVISION:
+		operation = ReplaceMultiplicationWithDivision::GetInstance();
+		break;
+
+	case DIVISIONTOPLUS:
+		operation = ReplaceDivisionWithPlus::GetInstance();
+		break;
+	
+	case DIVISIONTOMINUS:
+		operation = ReplaceDivisionWithMinus::GetInstance();
+		break;
+
+	case DIVISIONTOMULTIPLICATION:
+		operation = ReplaceDivisionWithMultiplication::GetInstance();
 		break;
 
 	default:
@@ -68,8 +120,60 @@ void MutateOperationFactory::ReleaseInstances()
 		ReplaceEquals::ReleaseInstance();
 		break;
 
-	case INCREMENTDECREMENT:
+	case INCREMENT:
     	ReplaceIncrement::ReleaseInstance();
+		break;
+
+	case DECREMENT:
+		ReplaceDecrement::ReleaseInstance();
+		break;
+
+	case PLUSTOMINUS:
+		ReplacePlusWithMinus::ReleaseInstance();
+		break;
+
+	case PLUSTOMULTIPLICATION:
+		ReplacePlusWithMultiplication::ReleaseInstance();
+		break;
+	
+	case PLUSTODIVISION:
+		ReplacePlusWithDivision::ReleaseInstance();
+		break;
+
+	case MINUSTOPLUS:
+		ReplaceMinusWithPlus::ReleaseInstance();
+		break;
+	
+	case MINUSTOMULTIPLICATION:
+		ReplaceMinusWithMultiplication::ReleaseInstance();
+		break;
+	
+	case MINUSTODIVISION:
+		ReplaceMinusWithDivision::ReleaseInstance();
+		break;
+	
+	case MULTIPLICATIONTOPLUS:
+		ReplaceMultiplicationWithPlus::ReleaseInstance();
+		break;
+
+	case MULTIPLICATIONTOMINUS:
+		ReplaceMultiplicationWithMinus::ReleaseInstance();
+		break;
+
+	case MULTIPLICATIONTODIVISION:
+		ReplaceMultiplicationWithDivision::ReleaseInstance();
+		break;
+
+	case DIVISIONTOPLUS:
+		ReplaceDivisionWithPlus::ReleaseInstance();
+		break;
+	
+	case DIVISIONTOMINUS:
+		ReplaceDivisionWithMinus::ReleaseInstance();
+		break;
+
+	case DIVISIONTOMULTIPLICATION:
+		ReplaceDivisionWithMultiplication::ReleaseInstance();
 		break;
 
 	default:

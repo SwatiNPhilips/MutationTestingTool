@@ -86,10 +86,62 @@ std::string Report::to_String(OPERATION_TYPE mutant_type)
 		return "EQUALS";
 		break;
 
-	case INCREMENTDECREMENT:
-		return "INCREMENTDECREMENT";
+	case INCREMENT:
+		return "INCREMENT";
 		break;
-		
+
+	case DECREMENT:
+		return "DECREMENT";
+		break;
+
+	case PLUSTOMINUS:
+		return "PLUSTOMINUS";
+		break;
+
+	case PLUSTOMULTIPLICATION:
+		return "PLUSTOMULTIPLICATION";
+		break;
+
+	case PLUSTODIVISION:
+		return "PLUSTODIVISION";
+		break;
+	
+	case MINUSTOPLUS:
+		return "MINUSTOPLUS";
+		break;
+	
+	case MINUSTOMULTIPLICATION:
+		return "MINUSTOMULTIPLICATION";
+		break;
+	
+	case MINUSTODIVISION:
+		return "MINUSTODIVISION";
+		break;
+	
+	case MULTIPLICATIONTOPLUS:
+		return "MULTIPLICATIONTOPLUS";
+		break;
+
+	case MULTIPLICATIONTOMINUS:
+		return "MULTIPLICATIONTOMINUS";
+		break;
+
+	case MULTIPLICATIONTODIVISION:
+		return "MULTIPLICATIONTODIVISION";
+		break;
+
+	case DIVISIONTOPLUS:
+		return "DIVISIONTOPLUS";
+		break;
+	
+	case DIVISIONTOMINUS:
+		return "DIVISIONTOMINUS";
+		break;
+
+	case DIVISIONTOMULTIPLICATION:
+		return "DIVISIONTOMULTIPLICATION";
+		break;
+
 	default:
 		return "NONE";
 		break;
