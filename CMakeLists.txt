@@ -9,7 +9,10 @@ set(CMAKE_CXX_STANDARD 17)
 # all *.cpp from src folder are our source
 file(GLOB_RECURSE SOURCES SRC/*.cpp)
 
+find_package(Boost 1.66 REQUIRED)
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 # include directories
 target_include_directories(${PROJECT_NAME} PUBLIC INC)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC Boost::boost)

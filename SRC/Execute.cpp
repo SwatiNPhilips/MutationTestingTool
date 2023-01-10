@@ -1,37 +1,66 @@
-#include <string>
-#include<iostream>
 #include "Execute.h"
-
-using namespace std;
-
+static constexpr char CD[] = "cd";
+static constexpr char SPACE[] = " ";
+static constexpr char PIPE[] = "|";
+static constexpr char GREPFAIL[] = "grep \"FAILED\"";
+static constexpr char GREPPASS[] = "grep \"PASSED\"";
+static constexpr char SEMICOLON[] = ";";
 
 ExecuteClass::ExecuteClass()
 {
-	cout << "\nCalled Execute class ";
-	hl7_path.clear();
-	hl7_path = "/workspace/delphi-linuxapp-hl7";
+	resetDetails();
 }
 
 ExecuteClass::~ExecuteClass()
 {
-	hl7_path.clear();
+	resetDetails();
+}
+
+void ExecuteClass::resetDetails()
+{
+	m_buildPath.clear();
+	m_buildCommand.clear();
+	m_runPath.clear();
+	m_runCommand.clear();
+}
+
+void ExecuteClass::setExecuteDetails(const CONFIGURATION conf)
+{
+	m_buildPath = conf.build_path;
+	m_buildCommand = conf.build_command;
+	m_runPath = conf.run_path;
+	m_runCommand = conf.run_command;
 }
 
 void ExecuteClass::buildCode()
 {
-	cout << "\n Called buildCode ";
+	string cmd = CD + string(SPACE) +  m_buildPath + SEMICOLON + m_buildCommand;
+#ifdef _WIN32
+	FILE* pipe = _popen(cmd.c_str(), "r");
+#else
+	FILE* pipe = popen(cmd.c_str(), "r");
+#endif
 
-	string cmd = "cd " + hl7_path + ";" + "make";
-	system(cmd.c_str());
-
+	if (!pipe) {
+		cout << "popen failed! for build code" << endl;
+	}
+#ifdef _WIN32
+	_pclose(pipe);
+#else
+	pclose(pipe);
+#endif
 }
 
-std::string ExecuteClass::readConsole(std::string command)
+string ExecuteClass::readConsole(const string command) const
 {
 	char buffer[128];
 	string result = "";
 	result.clear();
+#ifdef _WIN32
+	FILE* pipe = _popen(command.c_str(), "r");
+#else
 	FILE* pipe = popen(command.c_str(), "r");
+#endif
 
 	if (!pipe) {
 		cout << "popen failed!" << endl;
@@ -44,10 +73,15 @@ std::string ExecuteClass::readConsole(std::string command)
 			result += buffer;
 	}
 
+#ifdef _WIN32
+	_pclose(pipe);
+#else
 	pclose(pipe);
+#endif
 	cout << "\n\n result :" << result;
 	return result;
 }
+
 MAP_CMD_OP ExecuteClass::runCode()
 {
 	MAP_CMD_OP map_Cmd_Op;
@@ -55,7 +89,7 @@ MAP_CMD_OP ExecuteClass::runCode()
 	map_Cmd_Op[CMD_OP_TYPE::FAILED].clear();
 
 	cout << "\n Called runCode" ;
-	string cmd = "cd " + hl7_path + "/UNITTEST" +";" + "./unittest" + "| grep \"FAILED\"";
+	string cmd = CD + string(SPACE) +  m_runPath + SEMICOLON + m_runCommand + SPACE + PIPE + SPACE + GREPFAIL;
 	
 	string result = "";
 	result = readConsole(cmd);
@@ -66,7 +100,7 @@ MAP_CMD_OP ExecuteClass::runCode()
 	else
 	{
 		cmd.clear();
-		cmd = "cd " + hl7_path + "/UNITTEST" + ";" + "./unittest" + "| grep \"PASSED\"";
+		cmd = CD + string(SPACE) + m_runPath + SEMICOLON + m_runCommand + SPACE + PIPE + SPACE + GREPPASS;
 		result = readConsole(cmd);
 		if (!result.empty())
 		{

@@ -1,6 +1,4 @@
 #include "MutateOperation.h"
-#include <string>
-using namespace std;
 
 MutateOperation::MutateOperation()
 {

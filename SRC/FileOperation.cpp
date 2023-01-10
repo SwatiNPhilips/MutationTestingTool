@@ -1,23 +1,25 @@
-#include<iostream>
 #include<fstream>
 #include "FileOperation.h"
 #include"MutateOperation.h"
 #include"ReplaceIntegers.h"
 #include"Report.h"
 
-using namespace std;
-
-class MutateOperation;
+static constexpr char SEPERATOR[] = "/";
+static constexpr char BACKUPDB[] = "./BackupDB/";
+static constexpr char DB_EXT[] = "_db";
+static constexpr char CMDMKDIR[] = "mkdir";
+static constexpr char SPACE[] = " ";
+static constexpr char CMDCP[] = "cp";
+static constexpr char ORIGINAL[] = "original";
+static constexpr char SEMICOLON[] = ";";
 
 FileOperation::FileOperation(string name, string path)
 {
 	file_name = name;
 	file_path = path;
-	absolute_path = path + "/" + name;
+	absolute_path = path + SEPERATOR + name;
 	lines_count = line_number = 0;
 	read_offset = write_offset = 0;
-
-	cout << "\n constructor :\n" << "\nFile name :" << file_name << "\nFile path: " << file_path;
 }
 
 FileOperation::~FileOperation()
@@ -31,12 +33,12 @@ FileOperation::~FileOperation()
 
 void FileOperation::init()
 {
-	database_folder = "/workspace/MutationTestingTool";
+	database_folder = BACKUPDB;
 	CreateDB_Folder();
 	copyOriginalFile();
 }
 
-bool FileOperation::File_Read(MutateOperation* MutateOp, std::map<std::string, REPORT>* mpReport, string mapIndex)
+bool FileOperation::File_Read(MutateOperation* MutateOp, map<string, REPORT>* mpReport, const string mapIndex)
 {
 //	cout << "\n\nfile read\n";
 
@@ -64,7 +66,7 @@ bool FileOperation::File_Read(MutateOperation* MutateOp, std::map<std::string, R
 	return result;
 }
 
-bool FileOperation::File_write(string line, MutateOperation* MutateOp, std::map<std::string, REPORT>* mpReport, string mapIndex)
+bool FileOperation::File_write(string line, MutateOperation* MutateOp, map<string, REPORT>* mpReport, const string mapIndex)
 {
 //	cout << "\n\n file wite \n";
 	bool result = false;
@@ -121,58 +123,69 @@ int FileOperation::getLinesCount()
 
 void FileOperation::CreateDB_Folder()
 {
-	string cmd = "mkdir " + database_folder;
-	system(cmd.c_str());
-	cmd = "mkdir " + database_folder + "/" + file_name + "_db";
-	system(cmd.c_str());
+	string cmd = CMDMKDIR + string(SPACE) + database_folder + SEMICOLON + CMDMKDIR + string(SPACE) + database_folder + file_name + DB_EXT;
+#ifdef _WIN32
+	FILE* pipe = _popen(cmd.c_str(), "r");
+#else
+	FILE* pipe = popen(cmd.c_str(), "r");
+#endif
+	if (!pipe) {
+		cout << "popen failed! for CreateDB_Folder" << endl;
+	}
 
-	database_folder = database_folder + "/" + file_name + "_db";
+#ifdef _WIN32
+	_pclose(pipe);
+#else
+	pclose(pipe);
+#endif
+	database_folder = database_folder + file_name + DB_EXT;
 	cout << "\n Called CreateDB_Folder " << database_folder;
 }
 
 void FileOperation::copyOriginalFile()
 {
-	string folder = database_folder + "/original";
-	string cmd = "mkdir " + folder;
-	system(cmd.c_str());
-	cmd = "cp " + file_path + "/" + file_name +" " + folder;
-	system(cmd.c_str());
-	original_file_folder = folder;
-	cout << "\n Called copyOriginalFile " << original_file_folder;
-}
+	string folder = database_folder + SEPERATOR + ORIGINAL;
+	string cmd = CMDMKDIR + string(SPACE) + folder + SEMICOLON + CMDCP + string(SPACE) + file_path + SEPERATOR + file_name + SPACE + folder;
 
-
-void FileOperation::ReplaceOriginalFile()
-{
-	cout << "\n Called ReplaceOriginalFile ";
-	
-	string cmd = "cp " + original_file_folder + "/" + file_name + " " + file_path;
-	system(cmd.c_str());
-}
-
-vector<string> FileOperation::Read_Config()
-{
-	ifstream fin;
-	string line;
-	vector<string> result;
-	result.clear();
-
-	fin.open(absolute_path.c_str());
-
-	if (fin.is_open())
-	{
-		while (getline(fin, line))
-		{
-			if ((line.find(";") != string::npos) && (line.find("#") == string::npos))
-			{
-				result.push_back(line);
-			}
-		}
+#ifdef _WIN32
+	FILE* pipe = _popen(cmd.c_str(), "r");
+#else
+	FILE* pipe = popen(cmd.c_str(), "r");
+#endif
+	if (!pipe) {
+		cout << "popen failed! for copyOriginalFile" << endl;
 	}
-	return result;
+#ifdef _WIN32
+	_pclose(pipe);
+#else
+	pclose(pipe);
+#endif
+	original_file_folder = folder;
+	//cout << "\n Called copyOriginalFile " << original_file_folder;
 }
 
-string FileOperation::GetFileName()
+
+void FileOperation::ReplaceOriginalFile() const
+{
+	//cout << "\n Called ReplaceOriginalFile ";
+	
+	string cmd = CMDCP + string(SPACE) + original_file_folder + SEPERATOR + file_name + SPACE + file_path;
+#ifdef _WIN32
+	FILE* pipe = _popen(cmd.c_str(), "r");
+#else
+	FILE* pipe = popen(cmd.c_str(), "r");
+#endif
+	if (!pipe) {
+		cout << "popen failed! for ReplaceOriginalFile" << endl;
+	}
+#ifdef _WIN32
+	_pclose(pipe);
+#else
+	pclose(pipe);
+#endif
+}
+
+string FileOperation::GetFileName() const
 {
 	return file_name;
 }

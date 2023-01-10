@@ -1,8 +1,5 @@
 #pragma once
-#include<string>
-#include<vector>
 #include "MiscEnums.h"
-#include<map>
 
 struct report_struct
 {
@@ -10,8 +7,8 @@ struct report_struct
 	unsigned int pass_tests;
 	unsigned int failed_tests;
 	OPERATION_TYPE mutant_type;
-	std::vector<std::string> lines;
- 	std::vector<std::string> survived_mutants;
+	vector<string> lines;
+ 	vector<string> survived_mutants;
 
 	report_struct()
 	{
@@ -27,16 +24,16 @@ typedef report_struct REPORT;
 
 class Report
 {
-	std::map<std::string,REPORT> report_map;
+	map<string,REPORT> report_map;
 
-	std::string to_String(OPERATION_TYPE mutant_type);
+	string to_String(const OPERATION_TYPE mutant_type) const;
 public:
 
 	Report();
 	~Report();
 
-	void CreateReport(MAP_CMD_OP map_Output, std::string mapIndex);
-	std::map<std::string, REPORT>* getReport();
-	void printReport();
+	void CreateReport(MAP_CMD_OP map_Output, const string mapIndex);
+	map<string, REPORT>* getReport();
+	void printReport() const;
 };
 

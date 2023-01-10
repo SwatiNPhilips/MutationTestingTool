@@ -1,6 +1,10 @@
 #pragma once
 #include <string>
 #include <map>
+#include <vector>
+#include<iostream>
+
+using namespace std;
 typedef enum
 {
 	INTEGER = 0,
@@ -18,12 +22,12 @@ typedef enum
 
 }CMD_OP_TYPE;
 
-typedef std::map<CMD_OP_TYPE, std::string> MAP_CMD_OP;
+typedef map<CMD_OP_TYPE, string> MAP_CMD_OP;
 
 struct config_struct
 {
-	std::string file_name;
-	std::string file_path;
+	string file_name;
+	string file_path;
 	OPERATION_TYPE op_type;
 
 	config_struct()
@@ -34,3 +38,25 @@ struct config_struct
 	}
 };
 typedef config_struct CONFIG_STRUCT;
+
+struct configuration
+{
+	string build_path;
+	string build_command;
+	string run_path;
+	string run_command;
+	vector<CONFIG_STRUCT> config_list;
+	configuration()
+	{
+		clear();
+	}
+	void clear()
+	{
+		build_path.clear();
+		build_command.clear();
+		run_path.clear();
+		run_command.clear();
+		config_list.clear();
+	}
+};
+typedef configuration CONFIGURATION;

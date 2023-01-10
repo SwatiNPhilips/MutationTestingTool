@@ -2,24 +2,24 @@
 
 MutateOperationFactory::MutateOperationFactory()
 {
-	opType = OPERATION_TYPE::NONE;
+	m_opType = OPERATION_TYPE::NONE;
 }
 
 MutateOperationFactory::~MutateOperationFactory()
 {
 	ReleaseInstances();
-	opType = OPERATION_TYPE::NONE;
+	m_opType = OPERATION_TYPE::NONE;
 }
 
-void MutateOperationFactory::SetOperationType(OPERATION_TYPE type)
+void MutateOperationFactory::SetOperationType(const OPERATION_TYPE type)
 {
-	opType = type;
+	m_opType = type;
 }
 
-MutateOperation* MutateOperationFactory::getOperation()
+MutateOperation* MutateOperationFactory::getOperationType() const
 {
   MutateOperation* operation = nullptr;
-  switch (opType)
+  switch (m_opType)
   {
   case INTEGER:
 	  operation = ReplaceIntegers::GetInstance();
@@ -44,9 +44,9 @@ MutateOperation* MutateOperationFactory::getOperation()
   return operation;
 }
 
-void MutateOperationFactory::ReleaseInstances()
+void MutateOperationFactory::ReleaseInstances() const
 {
-	switch (opType)
+	switch (m_opType)
 	{
 	case INTEGER:
 		ReplaceIntegers::ReleaseInstance();

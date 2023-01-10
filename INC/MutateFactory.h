@@ -12,16 +12,16 @@ class MutateFactory
 	MutateOperation* mp_MutateOp;
 	ExecuteClass m_Exec;
 	Report m_Report;
-	vector<CONFIG_STRUCT> configVec;
+	CONFIGURATION configurations;
 
-	void PerformMutationTesting(OPERATION_TYPE type);
+	void PerformMutationTesting(const OPERATION_TYPE);
 
 public:
 	MutateFactory();
 	~MutateFactory();
 
 	void initMutate();
-	void setConfiguration(vector<CONFIG_STRUCT> conf);
+	void setConfiguration(const CONFIGURATION);
 	void printReport();
 
 };

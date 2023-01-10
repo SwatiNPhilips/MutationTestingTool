@@ -1,8 +1,5 @@
 #pragma once
-#pragma once
-#include <string>
 #include"MutateOperation.h"
-using namespace std;
 
 
 class ReplaceInsertWithIndex : public MutateOperation
@@ -15,7 +12,7 @@ public:
 	static ReplaceInsertWithIndex* m_Instance;
 
 public:
-	virtual bool Mutate(std::string& s) override;
+	virtual bool Mutate(string& s) override;
 
 	static ReplaceInsertWithIndex* GetInstance()
 	{

@@ -1,5 +1,4 @@
 #include "ReplaceIntegers.h"
-#include<string>
 
 ReplaceIntegers* ReplaceIntegers::m_Instance = nullptr;
 
@@ -13,18 +12,17 @@ ReplaceIntegers::~ReplaceIntegers()
 
 }
 
-bool ReplaceIntegers::Mutate(std::string& s)
+bool ReplaceIntegers::Mutate(string& s)
 {
 	cout << "\n entered Mutate in Replace integers :\n";
 	const char* c = s.c_str();
 	bool result = false;
 
 	cout << "\n replace number : " << s << "\n";
-  if(s.find("::hl7") != string::npos) return  result;
-	std::string::const_iterator it = s.begin();
+	string::const_iterator it = s.begin();
 	for (int i = 0; it != s.end(); i++, it++)
 	{
-		if (std::isdigit(*it))
+		if (isdigit(*it))
 		{
 
 			int tmp = atoi(&c[i]);

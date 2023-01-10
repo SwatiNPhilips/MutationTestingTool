@@ -16,15 +16,11 @@ ReplaceEquals::~ReplaceEquals()
 
 }
 
-bool ReplaceEquals::Mutate(std::string& line)
+bool ReplaceEquals::Mutate(string& line)
 {
 	bool result = false;
 
 	cout << "\n ReplaceEquals : " << line << "\n";
-	if (line.find("::hl7") != string::npos)
-	{
-		return  result;
-	}
 	if ((line.find(STREQUALS) != string::npos))
 	{
 		line.replace(line.find(STREQUALS), SIZEOFEQUALS, STRNOTEQUALS);
