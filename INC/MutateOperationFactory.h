@@ -9,18 +9,11 @@
 #include "ReplaceEquals.h"
 #include "ReplaceIncrement.h"
 #include "ReplaceDecrement.h"
-#include "ReplacePlusWithMinus.h"
-#include "ReplacePlusWithMultiplication.h"
-#include "ReplacePlusWithDivision.h"
-#include "ReplaceMinusWithPlus.h"
-#include "ReplaceMinusWithMultiplication.h"
-#include "ReplaceMinusWithDivision.h"
-#include "ReplaceMultiplicationWithPlus.h"
-#include "ReplaceMultiplicationWithMinus.h"
-#include "ReplaceMultiplicationWithDivision.h"
-#include "ReplaceDivisionWithPlus.h"
-#include "ReplaceDivisionWithMinus.h"
-#include "ReplaceDivisionWithMultiplication.h"
+#include "ReplaceAddition.h"
+#include "ReplaceSubtraction.h"
+#include "ReplaceMultiplication.h"
+#include "ReplaceDivision.h"
+
 using namespace std;
 
 class MutateOperationFactory

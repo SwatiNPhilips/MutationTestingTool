@@ -1,9 +1,7 @@
 #pragma once
 #include "MutateOperation.h"
-#include<string>
-#include<vector>
+#include <vector>
 
-using namespace std;
 class ReplaceIncrement : public MutateOperation
 {
 	ReplaceIncrement();
@@ -14,7 +12,7 @@ class ReplaceIncrement : public MutateOperation
 	static ReplaceIncrement* m_Instance;
 public:
 
-	virtual bool Mutate(std::string& s) override;
+	virtual bool Mutate(string& s) override;
 
 	static ReplaceIncrement* GetInstance()
 	{

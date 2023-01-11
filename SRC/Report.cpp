@@ -94,52 +94,20 @@ std::string Report::to_String(OPERATION_TYPE mutant_type)
 		return "DECREMENT";
 		break;
 
-	case PLUSTOMINUS:
-		return "PLUSTOMINUS";
+	case ADDITION:
+		return "ADDITION";
 		break;
 
-	case PLUSTOMULTIPLICATION:
-		return "PLUSTOMULTIPLICATION";
-		break;
-
-	case PLUSTODIVISION:
-		return "PLUSTODIVISION";
+	case SUBTRACTION:
+		return "SUBTRACTION";
 		break;
 	
-	case MINUSTOPLUS:
-		return "MINUSTOPLUS";
-		break;
-	
-	case MINUSTOMULTIPLICATION:
-		return "MINUSTOMULTIPLICATION";
-		break;
-	
-	case MINUSTODIVISION:
-		return "MINUSTODIVISION";
-		break;
-	
-	case MULTIPLICATIONTOPLUS:
-		return "MULTIPLICATIONTOPLUS";
+	case MULTIPLICATION:
+		return "MULTIPLICATION";
 		break;
 
-	case MULTIPLICATIONTOMINUS:
-		return "MULTIPLICATIONTOMINUS";
-		break;
-
-	case MULTIPLICATIONTODIVISION:
-		return "MULTIPLICATIONTODIVISION";
-		break;
-
-	case DIVISIONTOPLUS:
-		return "DIVISIONTOPLUS";
-		break;
-	
-	case DIVISIONTOMINUS:
-		return "DIVISIONTOMINUS";
-		break;
-
-	case DIVISIONTOMULTIPLICATION:
-		return "DIVISIONTOMULTIPLICATION";
+	case DIVISION:
+		return "DIVISION";
 		break;
 
 	default:

@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 # all *.cpp from src folder are our source
 file(GLOB_RECURSE SOURCES SRC/*.cpp)
-add_subdirectory (TESTS) 
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

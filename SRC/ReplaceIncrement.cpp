@@ -15,7 +15,7 @@ ReplaceIncrement::~ReplaceIncrement()
 
 }
 
-bool ReplaceIncrement::Mutate(std::string& line)
+bool ReplaceIncrement::Mutate(string& line)
 {
 	bool result = false;
 

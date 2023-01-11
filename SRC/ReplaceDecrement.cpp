@@ -16,7 +16,7 @@ ReplaceDecrement::~ReplaceDecrement()
 
 }
 
-bool ReplaceDecrement::Mutate(std::string& line)
+bool ReplaceDecrement::Mutate(string& line)
 {
 	bool result = false;
 
