@@ -21,12 +21,12 @@ bool ReplaceDecrement::Mutate(string& line)
 	bool result = false;
 
 	cout << "\n ReplaceDecrement : " << line << "\n";
-    if ((line.find(DECREMENT_OP[0].c_str()) != string::npos))
+	if ((line.find(DECREMENT_OP[0].c_str()) != string::npos))
 	{
 		line.replace(line.find(DECREMENT_OP[0].c_str()), SIZEOFDECREMENT, INCREMENT_OP[0].c_str());
 		result = true;
 	}
-    else if ((line.find(DECREMENT_OP[1].c_str()) != string::npos))
+	else if ((line.find(DECREMENT_OP[1].c_str()) != string::npos))
 	{
 		line.replace(line.find(DECREMENT_OP[1].c_str()), SIZEOFDECREMENT, INCREMENT_OP[1].c_str());
 		result = true;

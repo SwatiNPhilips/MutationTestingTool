@@ -25,7 +25,7 @@ bool ReplaceIncrement::Mutate(string& line)
 		line.replace(line.find(INCREMENT_OP[0].c_str()), SIZEOFINCREMENT, DECREMENT_OP[0].c_str());
 		result = true;
 	}
-    else if ((line.find(INCREMENT_OP[1].c_str()) != string::npos))
+	else if ((line.find(INCREMENT_OP[1].c_str()) != string::npos))
 	{
 		line.replace(line.find(INCREMENT_OP[1].c_str()), SIZEOFINCREMENT, DECREMENT_OP[1].c_str());
 		result = true;

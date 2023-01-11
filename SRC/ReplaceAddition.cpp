@@ -19,13 +19,13 @@ bool ReplaceAddition::Mutate(string& line)
 	bool result = false;
 	cout << "\n ReplaceAddition : " << line << "\n";
 
-    size_t pos = 0;
-    while((pos = line.find(PLUS_OP, pos)) != string::npos)
-    {
-        line.replace(pos, sizeof(PLUS_OP) - 1, MULTIPY_OP);
-        pos += sizeof(MULTIPY_OP) - 1;
-        result = true;
-    }
+	size_t pos = 0;
+	while((pos = line.find(PLUS_OP, pos)) != string::npos)
+	{
+		line.replace(pos, sizeof(PLUS_OP) - 1, MULTIPY_OP);
+		pos += sizeof(MULTIPY_OP) - 1;
+		result = true;
+	}
 
-   return result;
+	return result;
 }
