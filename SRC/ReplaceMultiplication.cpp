@@ -20,10 +20,9 @@ bool ReplaceMultiplication::Mutate(string& line)
 	cout << "\n ReplaceMultiplication : " << line << "\n";
 
 	size_t pos = 0;
-	while((pos = line.find(MULTIPY_OP, pos)) != string::npos)
+	if((pos = line.find(MULTIPY_OP, pos)) != string::npos)
 	{
 		line.replace(pos, sizeof(MULTIPY_OP) - 1, PLUS_OP);
-		pos += sizeof(PLUS_OP) - 1;
 		result = true;
 	}
 
