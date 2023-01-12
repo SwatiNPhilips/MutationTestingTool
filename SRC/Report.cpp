@@ -86,6 +86,30 @@ std::string Report::to_String(OPERATION_TYPE mutant_type)
 		return "EQUALS";
 		break;
 
+	case INCREMENT:
+		return "INCREMENT";
+		break;
+
+	case DECREMENT:
+		return "DECREMENT";
+		break;
+
+	case ADDITION:
+		return "ADDITION";
+		break;
+
+	case SUBTRACTION:
+		return "SUBTRACTION";
+		break;
+	
+	case MULTIPLICATION:
+		return "MULTIPLICATION";
+		break;
+
+	case DIVISION:
+		return "DIVISION";
+		break;
+
 	default:
 		return "NONE";
 		break;

@@ -7,6 +7,12 @@
 #include "ReplaceInsertWithIndex.h"
 #include "ReplaceBoolean.h"
 #include "ReplaceEquals.h"
+#include "ReplaceIncrement.h"
+#include "ReplaceDecrement.h"
+#include "ReplaceAddition.h"
+#include "ReplaceSubtraction.h"
+#include "ReplaceMultiplication.h"
+#include "ReplaceDivision.h"
 
 using namespace std;
 
