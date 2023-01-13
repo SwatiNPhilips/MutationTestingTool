@@ -13,10 +13,10 @@
       "variables": [
         {
           "name": "Boost_INCLUDE_DIR",
-          "value": "${projectDir}\\packages\\boost.1.66.0.0\\lib\\native\\include",
+          "value": "${projectDir}\\packages\\boost.1.81.0\\lib\\native\\include",
           "type": "PATH"
         }
-      ]
+	    ]
     }
   ]
 }

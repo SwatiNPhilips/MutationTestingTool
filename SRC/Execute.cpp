@@ -6,106 +6,106 @@ static constexpr char GREPFAIL[] = "grep \"FAILED\"";
 static constexpr char GREPPASS[] = "grep \"PASSED\"";
 static constexpr char SEMICOLON[] = ";";
 
-ExecuteClass::ExecuteClass()
+Execute::Execute()
 {
-	resetDetails();
+    resetDetails();
 }
 
-ExecuteClass::~ExecuteClass()
+Execute::~Execute()
 {
-	resetDetails();
+    resetDetails();
 }
 
-void ExecuteClass::resetDetails()
+void Execute::resetDetails()
 {
-	m_buildPath.clear();
-	m_buildCommand.clear();
-	m_runPath.clear();
-	m_runCommand.clear();
+    m_buildPath.clear();
+    m_buildCommand.clear();
+    m_runPath.clear();
+    m_runCommand.clear();
 }
 
-void ExecuteClass::setExecuteDetails(const CONFIGURATION conf)
+void Execute::setExecuteDetails(const COMMANDS command)
 {
-	m_buildPath = conf.build_path;
-	m_buildCommand = conf.build_command;
-	m_runPath = conf.run_path;
-	m_runCommand = conf.run_command;
+    m_buildPath = command.build_path;
+    m_buildCommand = command.build_command;
+    m_runPath = command.run_path;
+    m_runCommand = command.run_command;
 }
 
-void ExecuteClass::buildCode()
+void Execute::buildCode()
 {
-	string cmd = CD + string(SPACE) +  m_buildPath + SEMICOLON + m_buildCommand;
+    string cmd = CD + string(SPACE) +  m_buildPath.string() + SEMICOLON + m_buildCommand;
 #ifdef _WIN32
-	FILE* pipe = _popen(cmd.c_str(), "r");
+    FILE* pipe = _popen(cmd.c_str(), "r");
 #else
-	FILE* pipe = popen(cmd.c_str(), "r");
+    FILE* pipe = popen(cmd.c_str(), "r");
 #endif
-
-	if (!pipe) {
-		cout << "popen failed! for build code" << endl;
-	}
+    if (!pipe)
+    {
+        cout << "popen failed! for build code" << endl;
+    }
 #ifdef _WIN32
-	_pclose(pipe);
+    _pclose(pipe);
 #else
-	pclose(pipe);
+    pclose(pipe);
 #endif
 }
 
-string ExecuteClass::readConsole(const string command) const
+string Execute::readConsole(const string command) const
 {
-	char buffer[128];
-	string result = "";
-	result.clear();
+    char buffer[128];
+    string result = "";
+    result.clear();
 #ifdef _WIN32
-	FILE* pipe = _popen(command.c_str(), "r");
+    FILE* pipe = _popen(command.c_str(), "r");
 #else
-	FILE* pipe = popen(command.c_str(), "r");
+    FILE* pipe = popen(command.c_str(), "r");
 #endif
-
-	if (!pipe) {
-		cout << "popen failed!" << endl;
-	}
-	//// read till end of process:
-	while (!feof(pipe)) {
-
-		//	// use buffer to read and add to result
-		if (fgets(buffer, 128, pipe) != NULL)
-			result += buffer;
-	}
+    if (!pipe)
+    {
+        cout << "popen failed!" << endl;
+    }
+    //// read till end of process:
+    while (!feof(pipe))
+    {
+        // use buffer to read and add to result
+        if (fgets(buffer, 128, pipe) != NULL)
+        {
+            result += buffer;
+        }
+    }
 
 #ifdef _WIN32
-	_pclose(pipe);
+    _pclose(pipe);
 #else
-	pclose(pipe);
+    pclose(pipe);
 #endif
-	cout << "\n\n result :" << result;
-	return result;
+    return result;
 }
 
-MAP_CMD_OP ExecuteClass::runCode()
+MAP_CMD_OP Execute::runCode()
 {
-	MAP_CMD_OP map_Cmd_Op;
-	map_Cmd_Op[CMD_OP_TYPE::PASSED].clear();
-	map_Cmd_Op[CMD_OP_TYPE::FAILED].clear();
+    MAP_CMD_OP map_Cmd_Op;
+    map_Cmd_Op[CMD_OP_TYPE::PASSED].clear();
+    map_Cmd_Op[CMD_OP_TYPE::FAILED].clear();
 
-	cout << "\n Called runCode" ;
-	string cmd = CD + string(SPACE) +  m_runPath + SEMICOLON + m_runCommand + SPACE + PIPE + SPACE + GREPFAIL;
-	
-	string result = "";
-	result = readConsole(cmd);
-	if (!result.empty())
-	{
-		map_Cmd_Op[CMD_OP_TYPE::FAILED] = result;
-	}
-	else
-	{
-		cmd.clear();
-		cmd = CD + string(SPACE) + m_runPath + SEMICOLON + m_runCommand + SPACE + PIPE + SPACE + GREPPASS;
-		result = readConsole(cmd);
-		if (!result.empty())
-		{
-			map_Cmd_Op[CMD_OP_TYPE::PASSED] = result;
-		}
-	}
-	return map_Cmd_Op;
+    string cmd = CD + string(SPACE) +  m_runPath.string() + SEMICOLON + m_runCommand + SPACE + PIPE + SPACE + GREPFAIL;
+
+    string result = "";
+    result = readConsole(cmd);
+    if (!result.empty())
+    {
+        map_Cmd_Op[CMD_OP_TYPE::FAILED] = result;
+    }
+    else
+    {
+        cmd.clear();
+        cmd = CD + string(SPACE) + m_runPath.string() + SEMICOLON + m_runCommand + SPACE + PIPE + SPACE + GREPPASS;
+        result = readConsole(cmd);
+        if (!result.empty())
+        {
+            map_Cmd_Op[CMD_OP_TYPE::PASSED] = result;
+        }
+    }
+    return map_Cmd_Op;
 }

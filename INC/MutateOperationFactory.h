@@ -8,12 +8,13 @@
 
 class MutateOperationFactory
 {
-	OPERATION_TYPE m_opType;
-	void ReleaseInstances() const;
+    OPERATION_TYPE m_opType;
 public:
-	MutateOperationFactory();
-	~MutateOperationFactory();
+    MutateOperationFactory();
+    ~MutateOperationFactory();
+    MutateOperationFactory(const MutateOperationFactory& obj) = delete;
+    MutateOperationFactory& operator = (const MutateOperationFactory& obj) = delete;
 
-	MutateOperation* getOperationType() const;
-	void SetOperationType(const OPERATION_TYPE type);
+    MutateOperation* getOperationType() const;
+    void SetOperationType(const OPERATION_TYPE type);
 };

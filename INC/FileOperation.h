@@ -1,38 +1,38 @@
 #pragma once
-#include"MutateOperation.h"
-#include"ReplaceIntegers.h"
-#include"Report.h"
+#include "MutateOperation.h"
+#include "Report.h"
 
 class FileOperation
 {
-	string file_name;
-	string file_path;
-	string absolute_path;
+    fs::path file_name;
+    fs::path file_path;
+    string absolute_path;
+    fs::path database_folder;
 
+    streamoff read_offset;
+    streamoff write_offset;
 
-	string database_folder;
-	string original_file_folder;
+    int lines_count;
+    int line_number;
+    static string m_cmdReplace;
 
-	streamoff read_offset;
-	streamoff write_offset;
-
-	int lines_count;
-	int line_number;
-
-	bool File_write(string, MutateOperation*, map<string, REPORT>*, const string);
+    bool file_write(string, MutateOperation*, map<string, REPORT>*, const string);
 
 public : 
-	FileOperation(string, string);
-	~FileOperation();
-	void init();
+    FileOperation(fs::path, fs::path);
+    ~FileOperation();
+    FileOperation(const FileOperation& obj) = delete;
+    FileOperation& operator = (const FileOperation& obj) = delete;
 
-	bool File_Read(MutateOperation*, map<string, REPORT>*, const string);
+    bool file_Read(MutateOperation*, map<string, REPORT>*, const string);
 
-	int getLinesCount();
-	void copyOriginalFile();
-	void ReplaceOriginalFile() const;
-	void CreateDB_Folder();
+    int getLinesCount();
+    void replaceOriginalFile() const;
+    bool createDB_Folder();
+    void copyOriginalFile();
+    void removeDB_Folder() const;
+    void performActionOnInterrupt() const;
 
-	string GetFileName() const;
+    string getFileName() const;
 };
 

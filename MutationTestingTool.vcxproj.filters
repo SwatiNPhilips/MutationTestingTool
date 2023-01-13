@@ -27,7 +27,7 @@
     <ClCompile Include="SRC/ReplaceIntegers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SRC/MutateFactory.cpp">
+    <ClCompile Include="SRC/MutateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SRC/Execute.cpp">
@@ -42,10 +42,16 @@
     <ClCompile Include="SRC/ReplaceInsertWithIndex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SRC/ConfigurationFile.cpp">
+    <ClCompile Include="SRC/ConfigurationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SRC/ConfigurationParser.cpp">
+    <ClCompile Include="SRC/ConfigurationJSONParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC/ConfigurationOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC/ConfigurationFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SRC/ReplaceBoolean.cpp">
@@ -65,7 +71,7 @@
     <ClInclude Include="INC/ReplaceIntegers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="INC/MutateFactory.h">
+    <ClInclude Include="INC/MutateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="INC/Execute.h">
@@ -83,16 +89,22 @@
     <ClInclude Include="INC/ReplaceInsertWithIndex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="INC/ConfigurationFile.h">
+    <ClInclude Include="INC/ConfigurationManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClCompile Include="INC/ConfigurationParser.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClInclude Include="INC/ReplaceBoolean.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="INC/ReplaceEquals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INC/ConfigurationFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INC/ConfigurationJSONParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INC/ConfigurationOperation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

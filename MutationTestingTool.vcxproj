@@ -117,11 +117,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>INC;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>INC;C:\Users\320167527\Documents\MutationTesting\MutationTestingTool\packages\boost.1.81.0\lib\native\include\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,12 +142,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SRC/ConfigurationFile.cpp" />
-    <ClCompile Include="SRC/ConfigurationParser.cpp" />
+    <ClCompile Include="SRC/ConfigurationFactory.cpp" />
+    <ClCompile Include="SRC/ConfigurationManager.cpp" />
+    <ClCompile Include="SRC/ConfigurationJSONParser.cpp" />
+    <ClCompile Include="SRC/ConfigurationOperation.cpp" />
     <ClCompile Include="SRC/Execute.cpp" />
     <ClCompile Include="SRC/FileOperation.cpp" />
     <ClCompile Include="SRC/main.cpp" />
-    <ClCompile Include="SRC/MutateFactory.cpp" />
+    <ClCompile Include="SRC/MutateManager.cpp" />
     <ClCompile Include="SRC/MutateOperation.cpp" />
     <ClCompile Include="SRC/MutateOperationFactory.cpp" />
     <ClCompile Include="SRC/ReplaceBoolean.cpp" />
@@ -156,12 +159,14 @@
     <ClCompile Include="SRC/Report.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="INC/ConfigurationFile.h" />
-    <ClCompile Include="INC/ConfigurationParser.h" />
+    <ClInclude Include="INC/ConfigurationFactory.h" />
+    <ClInclude Include="INC/ConfigurationManager.h" />
+    <ClInclude Include="INC/ConfigurationJSONParser.h" />
+    <ClInclude Include="INC/ConfigurationOperation.h" />
     <ClInclude Include="INC/Execute.h" />
     <ClInclude Include="INC/FileOperation.h" />
     <ClInclude Include="INC/MiscEnums.h" />
-    <ClInclude Include="INC/MutateFactory.h" />
+    <ClInclude Include="INC/MutateManager.h" />
     <ClInclude Include="INC/MutateOperation.h" />
     <ClInclude Include="INC/MutateOperationFactory.h" />
     <ClInclude Include="INC/ReplaceBoolean.h" />
@@ -175,12 +180,16 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\boost.1.66.0.0\build\native\boost.targets" Condition="Exists('packages\boost.1.66.0.0\build\native\boost.targets')" />
+    <Import Project="packages\boost.1.81.0\build\boost.targets" Condition="Exists('packages\boost.1.81.0\build\boost.targets')" />
+    <Import Project="packages\boost_filesystem-vc142.1.81.0\build\boost_filesystem-vc142.targets" Condition="Exists('packages\boost_filesystem-vc142.1.81.0\build\boost_filesystem-vc142.targets')" />
+    <Import Project="packages\boost_system-vc142.1.81.0\build\boost_system-vc142.targets" Condition="Exists('packages\boost_system-vc142.1.81.0\build\boost_system-vc142.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\boost.1.66.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost.1.66.0.0\build\native\boost.targets'))" />
+    <Error Condition="!Exists('packages\boost.1.81.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost.1.81.0\build\boost.targets'))" />
+    <Error Condition="!Exists('packages\boost_filesystem-vc142.1.81.0\build\boost_filesystem-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_filesystem-vc142.1.81.0\build\boost_filesystem-vc142.targets'))" />
+    <Error Condition="!Exists('packages\boost_system-vc142.1.81.0\build\boost_system-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_system-vc142.1.81.0\build\boost_system-vc142.targets'))" />
   </Target>
 </Project>
