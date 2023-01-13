@@ -25,9 +25,6 @@ jobs:
     - name: update packages
       run: sudo apt update -y
 
-    - name: upgrade packages
-      run: sudo apt upgrade -y
-
     - name: Install boost
       run: sudo apt-get install libboost-all-dev
 
