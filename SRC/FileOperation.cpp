@@ -1,7 +1,6 @@
 #include <fstream>
 #include "FileOperation.h"
 
-static constexpr char SEPERATOR[] = "/";
 static constexpr char BACKUPDB[] = "BackupDB";
 static constexpr char CMDMKDIR[] = "mkdir";
 static constexpr char SPACE[] = " ";
@@ -134,7 +133,7 @@ bool FileOperation::createDB_Folder()
             status = false;
         }
     }
-    FileOperation::m_cmdReplace = CMDCP + string(SPACE) + database_folder.string() + SEPERATOR + file_name.string() + SPACE 
+    FileOperation::m_cmdReplace = CMDCP + string(SPACE) + (database_folder / file_name).string() + SPACE 
                          + file_path.string() + SEMICOLON + CMDRM + SPACE + CMDRF + SPACE + database_folder.string();
     return status;
 }
