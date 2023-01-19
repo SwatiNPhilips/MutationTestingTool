@@ -4,16 +4,16 @@
 
 class FileOperation
 {
-    fs::path file_name;
-    fs::path file_path;
-    string absolute_path;
-    fs::path database_folder;
+    fs::path m_fileName;
+    fs::path m_filePath;
+    string m_absolutePath;
+    fs::path m_databaseFolder;
 
-    streamoff read_offset;
-    streamoff write_offset;
+    streamoff m_readOffset;
+    streamoff m_writeOffset;
 
-    int lines_count;
-    int line_number;
+    int m_linesCount;
+    int m_lineNumber;
     static string m_cmdReplace;
 
     bool file_write(string, MutateOperation*, map<string, REPORT>*, const string);

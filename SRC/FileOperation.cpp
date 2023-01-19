@@ -13,22 +13,22 @@ string FileOperation::m_cmdReplace = "";
 
 FileOperation::FileOperation(fs::path name, fs::path path)
 {
-    file_name = name;
-    file_path = path;
-    database_folder.clear();
-    absolute_path = (path / name).string();
-    lines_count = line_number = 0;
-    read_offset = write_offset = 0;
+    m_fileName = name;
+    m_filePath = path;
+    m_databaseFolder.clear();
+    m_absolutePath = (m_filePath / m_fileName).string();
+    m_linesCount = m_lineNumber = 0;
+    m_readOffset = m_writeOffset = 0;
 }
 
 FileOperation::~FileOperation()
 {
-    file_name.clear();
-    file_path.clear();
-    database_folder.clear();
-    absolute_path.clear();
-    lines_count = line_number = 0;
-    read_offset = write_offset = 0;
+    m_fileName.clear();
+    m_filePath.clear();
+    m_databaseFolder.clear();
+    m_absolutePath.clear();
+    m_linesCount = m_lineNumber = 0;
+    m_readOffset = m_writeOffset = 0;
 }
 
 bool FileOperation::file_Read(MutateOperation* pMutateOp, map<string, REPORT>* pReport, const string mapIndex)
@@ -39,15 +39,15 @@ bool FileOperation::file_Read(MutateOperation* pMutateOp, map<string, REPORT>* p
 
     try
     {
-        fin.open(absolute_path.c_str());
+        fin.open(m_absolutePath.c_str());
 
         if (fin.is_open())
         {
-            fin.seekg(read_offset);
+            fin.seekg(m_readOffset);
             if (getline(fin, line))
             {
-                read_offset = fin.tellg();
-                line_number++;
+                m_readOffset = fin.tellg();
+                m_lineNumber++;
                 result = file_write(line, pMutateOp,pReport,mapIndex);
             }
         }
@@ -65,20 +65,20 @@ bool FileOperation::file_write(string line, MutateOperation* pMutateOp, map<stri
     ofstream fout;
     try
     {
-        fout.open(absolute_path.c_str(), fstream::in | fstream::out);
+        fout.open(m_absolutePath.c_str(), fstream::in | fstream::out);
 
         if (fout.is_open())
         {
             if (pMutateOp->Mutate(line))
             {
-                fout.seekp(write_offset);
+                fout.seekp(m_writeOffset);
                 fout << line;
 
-                (*pReport)[mapIndex].lines.emplace_back((to_string(line_number) + " : " + line));
+                (*pReport)[mapIndex].lines.emplace_back((to_string(m_lineNumber) + " : " + line));
                 (*pReport)[mapIndex].mutants_count++;
                 result = true;
             }
-            write_offset = read_offset;
+            m_writeOffset = m_readOffset;
             fout.close();
         }
     }
@@ -91,24 +91,24 @@ bool FileOperation::file_write(string line, MutateOperation* pMutateOp, map<stri
 
 int FileOperation::getLinesCount()
 {
-    if (lines_count > 0)
+    if (m_linesCount > 0)
     {
-        return lines_count;
+        return m_linesCount;
     }
 
     ifstream fin;
     string line;
     try
     {
-        fin.open(absolute_path.c_str());
+        fin.open(m_absolutePath.c_str());
 
-        lines_count = 0;
+        m_linesCount = 0;
 
         if (fin.is_open())
         {
             while (getline(fin, line))
             {
-                lines_count++;
+                m_linesCount++;
             }
 
         }
@@ -117,49 +117,49 @@ int FileOperation::getLinesCount()
     {
         cout<<endl<<ex.what()<<endl;;
     }
-    return lines_count;
+    return m_linesCount;
 }
 
 bool FileOperation::createDB_Folder()
 {
     bool status = true;
     fs::path backup_path(BACKUPDB);
-    database_folder = fs::current_path() / backup_path;
-    if(!fs::exists(database_folder))
+    m_databaseFolder = fs::current_path() / backup_path;
+    if(!fs::exists(m_databaseFolder))
     {
-        if( !boost::filesystem::create_directory(database_folder))
+        if( !boost::filesystem::create_directory(m_databaseFolder))
         {
             cout<<" execution of createDB_Folder failed"<<endl;
             status = false;
         }
     }
-    FileOperation::m_cmdReplace = CMDCP + string(SPACE) + (database_folder / file_name).string() + SPACE 
-                         + file_path.string() + SEMICOLON + CMDRM + SPACE + CMDRF + SPACE + database_folder.string();
+    FileOperation::m_cmdReplace = CMDCP + string(SPACE) + (m_databaseFolder / m_fileName).string() + SPACE 
+                         + m_filePath.string() + SEMICOLON + CMDRM + SPACE + CMDRF + SPACE + m_databaseFolder.string();
     return status;
 }
 
 void FileOperation::removeDB_Folder() const
 {
-    if (fs::exists(database_folder)) 
+    if (fs::exists(m_databaseFolder)) 
     {
-        fs::remove_all(database_folder);
+        fs::remove_all(m_databaseFolder);
     }
 }
 
 void FileOperation::copyOriginalFile()
 {
-    fs::path fileName = database_folder / file_name;
+    fs::path fileName = m_databaseFolder / m_fileName;
 #ifdef _WIN32
-    fs::copy_file(absolute_path, fileName , fs::copy_options::overwrite_existing);
+    fs::copy_file(m_absolutePath, fileName , fs::copy_options::overwrite_existing);
 #else
-    fs::copy_file(absolute_path, fileName , fs::copy_option::overwrite_if_exists);
+    fs::copy_file(m_absolutePath, fileName , fs::copy_option::overwrite_if_exists);
 #endif
 }
 
 void FileOperation::replaceOriginalFile() const
 {
-    fs::path backup_path = database_folder / file_name;
-    fs::path abs_path = file_path / file_name;
+    fs::path backup_path = m_databaseFolder / m_fileName;
+    fs::path abs_path = m_filePath / m_fileName;
 
 #ifdef _WIN32
     fs::copy_file(backup_path, abs_path, fs::copy_options::overwrite_existing);
@@ -170,7 +170,7 @@ void FileOperation::replaceOriginalFile() const
 
 string FileOperation::getFileName() const
 {
-    return file_name.string();
+    return m_fileName.string();
 }
 
 void FileOperation::performActionOnInterrupt() const

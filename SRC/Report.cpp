@@ -2,40 +2,40 @@
 
 Report::Report()
 {
-    report_map.clear();
+    m_reportMap.clear();
 }
 Report::~Report()
 {
-    report_map.clear();
+    m_reportMap.clear();
 
 }
 void Report::createReport(MAP_CMD_OP map_Output, const string mapIndex)
 {
     if (map_Output[CMD_OP_TYPE::FAILED].empty() && map_Output[CMD_OP_TYPE::PASSED].empty())
     {
-        report_map[mapIndex].failed_tests++;
+        m_reportMap[mapIndex].failed_tests++;
     }
 
 else if (!map_Output[CMD_OP_TYPE::FAILED].empty())
     {
-        report_map[mapIndex].failed_tests++;
+        m_reportMap[mapIndex].failed_tests++;
     }
     else if(!map_Output[CMD_OP_TYPE::PASSED].empty())
     {
-        report_map[mapIndex].pass_tests++;
-        report_map[mapIndex].survived_mutants.emplace_back(report_map[mapIndex].lines.back());
+        m_reportMap[mapIndex].pass_tests++;
+        m_reportMap[mapIndex].survived_mutants.emplace_back(m_reportMap[mapIndex].lines.back());
     }
 }
 
 map<string, REPORT>* Report::getReport()
 {
-    return &report_map;
+    return &m_reportMap;
 }
 
 void Report::printReport() const 
 {
-    map<string, REPORT>::const_iterator it = report_map.begin();
-    for (; it != report_map.end(); it++)
+    map<string, REPORT>::const_iterator it = m_reportMap.begin();
+    for (; it != m_reportMap.end(); it++)
     {
         cout << "\n\n------------------------------------REPORT------------------------------------------\n\n";
         cout << "                FileName : " << it->first.substr(0, it->first.find("_")) << "\n";

@@ -1,8 +1,5 @@
 #pragma once
 #include "MiscEnums.h"
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/exception/diagnostic_information.hpp>
 #include "ConfigurationOperation.h"
 
 class ConfigurationJSONParser: public ConfigurationOperation

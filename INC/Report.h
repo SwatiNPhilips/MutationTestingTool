@@ -24,7 +24,7 @@ typedef report_struct REPORT;
 
 class Report
 {
-    map<string,REPORT> report_map;
+    map<string,REPORT> m_reportMap;
 
     string to_String(const OPERATION_TYPE mutant_type) const;
 public:
