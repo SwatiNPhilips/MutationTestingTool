@@ -1,17 +1,13 @@
 #pragma once
-#include <string>
-#include<iostream>
-#include"MiscEnums.h"
-
-using namespace std;
+#include "MiscEnums.h"
 
 class MutateOperation
 {
 public:
-	MutateOperation();
-	virtual ~MutateOperation();
-	virtual bool Mutate(std::string& s) =0;
+    MutateOperation();
+    virtual ~MutateOperation();
+    MutateOperation(const MutateOperation& obj) = delete;
+    MutateOperation& operator = (const MutateOperation& obj) = delete;
+    virtual bool Mutate(string& s) = 0;
 
 };
-
-

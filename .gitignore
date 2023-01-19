@@ -3,3 +3,15 @@
 ################################################################################
 
 /.vs/ProjectSettings.json
+
+# generated object files
+*.o
+
+# build files
+build
+BackupDB
+SRC/MutationTestingTool
+x64
+Debug
+packages
+out

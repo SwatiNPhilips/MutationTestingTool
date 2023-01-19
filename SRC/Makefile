@@ -1,15 +1,19 @@
 rootdir = $(realpath ..)
 INC=$(rootdir)/INC/
+BOOST = -lboost_filesystem
 
 CC = g++
 CFLAGS = -std=c++17 -c -Wall -I$(INC)
 LDFLAGS=
 
 SOURCES = main.cpp \
-ConfigurationFile.cpp\
+ConfigurationManager.cpp\
+ConfigurationFactory.cpp\
+ConfigurationOperation.cpp\
+ConfigurationJSONParser.cpp\
 Execute.cpp\
 FileOperation.cpp\
-MutateFactory.cpp\
+MutateManager.cpp\
 MutateOperation.cpp\
 MutateOperationFactory.cpp \
 ReplaceInsertWithIndex.cpp\
@@ -19,12 +23,12 @@ ReplaceIntegers.cpp\
 Report.cpp
 
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=output
+EXECUTABLE=MutationTestingTool
 
 all: $(SOURCES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@ $(BOOST)
 
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@

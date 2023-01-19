@@ -1,0 +1,23 @@
+{
+	"Commands": {
+		"Build": {
+			"command": "make -j",
+			"path": "/home/philips/Repos/smart-dev-env/workspace/delphi-linuxapp-hl7/"
+		},
+		"Run": {
+			"command": "./unittest",
+			"path": "/home/philips/Repos/smart-dev-env/workspace/delphi-linuxapp-hl7/UNITTEST"
+		}
+	},
+	"FileDetails": [{
+			"name": "HL7Segment.cpp",
+			"path": "/home/philips/Repos/smart-dev-env/workspace/delphi-linuxapp-hl7/PROG/HL7Application/",
+			"operation": 1
+		},
+		{
+			"name": "RegExpressionsHelper.cpp",
+			"path": "/home/philips/Repos/smart-dev-env/workspace/delphi-linuxapp-hl7/PROG/TestHelper/",
+			"operation": 0
+		}
+	]
+}

@@ -2,69 +2,43 @@
 
 MutateOperationFactory::MutateOperationFactory()
 {
-	opType = OPERATION_TYPE::NONE;
+    m_opType = OPERATION_TYPE::NONE;
 }
 
 MutateOperationFactory::~MutateOperationFactory()
 {
-	ReleaseInstances();
-	opType = OPERATION_TYPE::NONE;
+    m_opType = OPERATION_TYPE::NONE;
 }
 
-void MutateOperationFactory::SetOperationType(OPERATION_TYPE type)
+void MutateOperationFactory::SetOperationType(const OPERATION_TYPE type)
 {
-	opType = type;
+    m_opType = type;
 }
 
-MutateOperation* MutateOperationFactory::getOperation()
+MutateOperation* MutateOperationFactory::getOperationType() const
 {
-  MutateOperation* operation = nullptr;
-  switch (opType)
-  {
-  case INTEGER:
-	  operation = ReplaceIntegers::GetInstance();
-	  break;
+    MutateOperation* operation = nullptr;
+    switch (m_opType)
+    {
+    case INTEGER:
+        operation = ReplaceIntegers::GetInstance();
+        break;
 
-  case INSERT:
-	  operation = ReplaceInsertWithIndex::GetInstance();
-	  break;
+    case INSERT:
+        operation = ReplaceInsertWithIndex::GetInstance();
+        break;
 
-  case BOOLEAN:
-	  operation = ReplaceBoolean::GetInstance();
-	  break;
+    case BOOLEAN:
+        operation = ReplaceBoolean::GetInstance();
+        break;
 
-  case EQUALS:
-	  operation = ReplaceEquals::GetInstance();
-	  break;
+    case EQUALS:
+        operation = ReplaceEquals::GetInstance();
+        break;
 
-  default:
-	  break;
+    default:
+        break;
 
-  }
-  return operation;
-}
-
-void MutateOperationFactory::ReleaseInstances()
-{
-	switch (opType)
-	{
-	case INTEGER:
-		ReplaceIntegers::ReleaseInstance();
-		break;
-
-	case INSERT:
-		ReplaceInsertWithIndex::ReleaseInstance();
-
-	case BOOLEAN:
-		ReplaceBoolean::ReleaseInstance();
-		break;
-
-	case EQUALS:
-		ReplaceEquals::ReleaseInstance();
-		break;
-
-	default:
-		break;
-
-	}
+    }
+    return operation;
 }

@@ -14,6 +14,10 @@ To use cmake follow below steps:
 3. Run, cmake .. 
 The above command will generate Makefile and other files in build directory.
 4. Simply run make in build directory.
+5. To install boost library use following command.
+
+Ubuntu: "sudo apt-get install libboost-all-dev"
+Visual studio Windows : Install the package using package manager console using command "NuGet\Install-Package boost_system-vc142 -Version 1.71.0"
 
 Note: CMake supports out-of-source build. Even the most simple project should never mix-up
 sources with generated files. In-source build is a BAD choice.

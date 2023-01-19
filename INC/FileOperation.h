@@ -1,46 +1,38 @@
 #pragma once
-#include<string>
-#include"MutateOperation.h"
-#include"ReplaceIntegers.h"
-#include<vector>
-#include<map>
-#include"Report.h"
+#include "MutateOperation.h"
+#include "Report.h"
 
-class MutateOperation;
-
-using namespace std;
 class FileOperation
 {
-	string file_name;
-	string file_path;
-	string absolute_path;
+    fs::path m_fileName;
+    fs::path m_filePath;
+    string m_absolutePath;
+    fs::path m_databaseFolder;
 
+    streamoff m_readOffset;
+    streamoff m_writeOffset;
 
-	string database_folder;
-	string original_file_folder;
+    int m_linesCount;
+    int m_lineNumber;
+    static string m_cmdReplace;
 
-	streamoff read_offset;
-	streamoff write_offset;
-
-	int lines_count;
-	int line_number;
-
-	bool File_write(string, MutateOperation*, std::map<std::string, REPORT>* mpReport, string mapIndex);
+    bool file_write(string, MutateOperation*, map<string, REPORT>*, const string);
 
 public : 
-	FileOperation(string, string);
-	~FileOperation();
-	void init();
+    FileOperation(fs::path, fs::path);
+    ~FileOperation();
+    FileOperation(const FileOperation& obj) = delete;
+    FileOperation& operator = (const FileOperation& obj) = delete;
 
-	bool File_Read(MutateOperation* MutateOp, std::map<std::string, REPORT>* mpReport, string mapIndex);
+    bool file_Read(MutateOperation*, map<string, REPORT>*, const string);
 
-	vector<string> Read_Config();
+    int getLinesCount();
+    void replaceOriginalFile() const;
+    bool createDB_Folder();
+    void copyOriginalFile();
+    void removeDB_Folder() const;
+    void performActionOnInterrupt() const;
 
-	int getLinesCount();
-	void copyOriginalFile();
-	void ReplaceOriginalFile();
-	void CreateDB_Folder();
-
-	string GetFileName();
+    string getFileName() const;
 };
 

@@ -1,178 +1,192 @@
-#include<iostream>
-#include<fstream>
+#include <fstream>
 #include "FileOperation.h"
-#include"MutateOperation.h"
-#include"ReplaceIntegers.h"
-#include"Report.h"
 
-using namespace std;
+static constexpr char BACKUPDB[] = "BackupDB";
+static constexpr char CMDMKDIR[] = "mkdir";
+static constexpr char SPACE[] = " ";
+static constexpr char CMDCP[] = "cp";
+static constexpr char SEMICOLON[] = ";";
+static constexpr char CMDRM[] = "rm";
+static constexpr char CMDRF[] = "-rf";
 
-class MutateOperation;
+string FileOperation::m_cmdReplace = "";
 
-FileOperation::FileOperation(string name, string path)
+FileOperation::FileOperation(fs::path name, fs::path path)
 {
-	file_name = name;
-	file_path = path;
-	absolute_path = path + "/" + name;
-	lines_count = line_number = 0;
-	read_offset = write_offset = 0;
-
-	cout << "\n constructor :\n" << "\nFile name :" << file_name << "\nFile path: " << file_path;
+    m_fileName = name;
+    m_filePath = path;
+    m_databaseFolder.clear();
+    m_absolutePath = (m_filePath / m_fileName).string();
+    m_linesCount = m_lineNumber = 0;
+    m_readOffset = m_writeOffset = 0;
 }
 
 FileOperation::~FileOperation()
 {
-	file_name.clear();
-	file_path.clear();
-	absolute_path.clear();
-	lines_count = line_number = 0;
-	read_offset = write_offset = 0;
+    m_fileName.clear();
+    m_filePath.clear();
+    m_databaseFolder.clear();
+    m_absolutePath.clear();
+    m_linesCount = m_lineNumber = 0;
+    m_readOffset = m_writeOffset = 0;
 }
 
-void FileOperation::init()
+bool FileOperation::file_Read(MutateOperation* pMutateOp, map<string, REPORT>* pReport, const string mapIndex)
 {
-	database_folder = "/workspace/MutationTestingTool";
-	CreateDB_Folder();
-	copyOriginalFile();
+    ifstream fin;
+    string line;
+    bool result = false;
+
+    try
+    {
+        fin.open(m_absolutePath.c_str());
+
+        if (fin.is_open())
+        {
+            fin.seekg(m_readOffset);
+            if (getline(fin, line))
+            {
+                m_readOffset = fin.tellg();
+                m_lineNumber++;
+                result = file_write(line, pMutateOp,pReport,mapIndex);
+            }
+        }
+    }
+    catch(exception const& ex)
+    {
+        cout<<endl<<ex.what()<<endl;;
+    }
+    return result;
 }
 
-bool FileOperation::File_Read(MutateOperation* MutateOp, std::map<std::string, REPORT>* mpReport, string mapIndex)
+bool FileOperation::file_write(string line, MutateOperation* pMutateOp, map<string, REPORT>* pReport, const string mapIndex)
 {
-//	cout << "\n\nfile read\n";
+    bool result = false;
+    ofstream fout;
+    try
+    {
+        fout.open(m_absolutePath.c_str(), fstream::in | fstream::out);
 
-	ifstream fin;
-	string line;
-	bool result = false;
+        if (fout.is_open())
+        {
+            if (pMutateOp->Mutate(line))
+            {
+                fout.seekp(m_writeOffset);
+                fout << line;
 
-	fin.open(absolute_path.c_str());
-	
-	if (fin.is_open())
-	{
-//		cout << "\n \n -----------\n";
-		fin.seekg(read_offset);
-		if (getline(fin, line))
-		{
-//			cout << "read line : " << line << "\n";
-			cout << fin.tellg();
-			read_offset = fin.tellg();
-			line_number++;
-			result = File_write(line, MutateOp,mpReport,mapIndex);
-//			cout << "\n \n -----------\n";
-		}
-
-	}
-	return result;
-}
-
-bool FileOperation::File_write(string line, MutateOperation* MutateOp, std::map<std::string, REPORT>* mpReport, string mapIndex)
-{
-//	cout << "\n\n file wite \n";
-	bool result = false;
-	ofstream fout;
-	fout.open(absolute_path.c_str(), fstream::in | fstream::out);
-
-	if (fout.is_open())
-	{
-//		cout << "\nwrite file open  \n";
-		if (MutateOp->Mutate(line)) {
-			fout.seekp(write_offset);
-			fout << line;
-
-			(*mpReport)[mapIndex].lines.push_back((to_string(line_number) + " : " + line));
-			(*mpReport)[mapIndex].mutants_count++;
-
-		cout << "\n \n -----------\n";
-		cout << " write line : " << line << "\n";
-		cout << "\n \n -----------\n";
-   
-			result = true;
-		}
-		write_offset = read_offset;
-
-		fout.close();
-	}
-
-	return result;
+                (*pReport)[mapIndex].lines.emplace_back((to_string(m_lineNumber) + " : " + line));
+                (*pReport)[mapIndex].mutants_count++;
+                result = true;
+            }
+            m_writeOffset = m_readOffset;
+            fout.close();
+        }
+    }
+    catch(exception const& ex)
+    {
+        cout<<endl<<ex.what()<<endl;;
+    }
+    return result;
 }
 
 int FileOperation::getLinesCount()
 {
-	cout << "\n\nfile count\n";
+    if (m_linesCount > 0)
+    {
+        return m_linesCount;
+    }
 
-	if (lines_count > 0)
-		return lines_count;
+    ifstream fin;
+    string line;
+    try
+    {
+        fin.open(m_absolutePath.c_str());
 
-	ifstream fin;
-	string line;
-	fin.open(absolute_path.c_str());
+        m_linesCount = 0;
 
-	lines_count = 0;
+        if (fin.is_open())
+        {
+            while (getline(fin, line))
+            {
+                m_linesCount++;
+            }
 
-	if (fin.is_open())
-	{
-		while (getline(fin, line))
-		{
-			lines_count++;
-		}
-
-	}
-	return lines_count;
+        }
+    }
+    catch(exception const& ex)
+    {
+        cout<<endl<<ex.what()<<endl;;
+    }
+    return m_linesCount;
 }
 
-void FileOperation::CreateDB_Folder()
+bool FileOperation::createDB_Folder()
 {
-	string cmd = "mkdir " + database_folder;
-	system(cmd.c_str());
-	cmd = "mkdir " + database_folder + "/" + file_name + "_db";
-	system(cmd.c_str());
+    bool status = true;
+    fs::path backup_path(BACKUPDB);
+    m_databaseFolder = fs::current_path() / backup_path;
+    if(!fs::exists(m_databaseFolder))
+    {
+        if( !boost::filesystem::create_directory(m_databaseFolder))
+        {
+            cout<<" execution of createDB_Folder failed"<<endl;
+            status = false;
+        }
+    }
+    FileOperation::m_cmdReplace = CMDCP + string(SPACE) + (m_databaseFolder / m_fileName).string() + SPACE 
+                         + m_filePath.string() + SEMICOLON + CMDRM + SPACE + CMDRF + SPACE + m_databaseFolder.string();
+    return status;
+}
 
-	database_folder = database_folder + "/" + file_name + "_db";
-	cout << "\n Called CreateDB_Folder " << database_folder;
+void FileOperation::removeDB_Folder() const
+{
+    if (fs::exists(m_databaseFolder)) 
+    {
+        fs::remove_all(m_databaseFolder);
+    }
 }
 
 void FileOperation::copyOriginalFile()
 {
-	string folder = database_folder + "/original";
-	string cmd = "mkdir " + folder;
-	system(cmd.c_str());
-	cmd = "cp " + file_path + "/" + file_name +" " + folder;
-	system(cmd.c_str());
-	original_file_folder = folder;
-	cout << "\n Called copyOriginalFile " << original_file_folder;
+    fs::path fileName = m_databaseFolder / m_fileName;
+#ifdef _WIN32
+    fs::copy_file(m_absolutePath, fileName , fs::copy_options::overwrite_existing);
+#else
+    fs::copy_file(m_absolutePath, fileName , fs::copy_option::overwrite_if_exists);
+#endif
 }
 
-
-void FileOperation::ReplaceOriginalFile()
+void FileOperation::replaceOriginalFile() const
 {
-	cout << "\n Called ReplaceOriginalFile ";
-	
-	string cmd = "cp " + original_file_folder + "/" + file_name + " " + file_path;
-	system(cmd.c_str());
+    fs::path backup_path = m_databaseFolder / m_fileName;
+    fs::path abs_path = m_filePath / m_fileName;
+
+#ifdef _WIN32
+    fs::copy_file(backup_path, abs_path, fs::copy_options::overwrite_existing);
+#else
+    fs::copy_file(backup_path, abs_path, fs::copy_option::overwrite_if_exists);
+#endif
 }
 
-vector<string> FileOperation::Read_Config()
+string FileOperation::getFileName() const
 {
-	ifstream fin;
-	string line;
-	vector<string> result;
-	result.clear();
-
-	fin.open(absolute_path.c_str());
-
-	if (fin.is_open())
-	{
-		while (getline(fin, line))
-		{
-			if ((line.find(";") != string::npos) && (line.find("#") == string::npos))
-			{
-				result.push_back(line);
-			}
-		}
-	}
-	return result;
+    return m_fileName.string();
 }
 
-string FileOperation::GetFileName()
+void FileOperation::performActionOnInterrupt() const
 {
-	return file_name;
+#ifdef _WIN32
+    FILE* pipe = _popen(FileOperation::m_cmdReplace.c_str(), "r");
+#else
+    FILE* pipe = popen(FileOperation::m_cmdReplace.c_str(), "r");
+#endif
+    if (!pipe)
+    {
+        cout << "popen failed! for ReplaceOriginalFile" << endl;
+    }
+#ifdef _WIN32
+    _pclose(pipe);
+#else
+    pclose(pipe);
+#endif
 }
